@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Brotli.NET</id>
+    <version>$version$</version>
+    <title>Brotli.NET</title>
+    <authors>Jinjun Xie</authors>
+    <owners>Jinjun Xie</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The .NET implement of the Brotli algothrim which is supported in Chrome and Firefox. Use the Brotli.BrotliStream class to compress/decompress the data.</description>    
+    <summary>
+    	<![CDATA[To support dynamic compress in web applications,add the code like this in the Global.asax.cs:
+        protected void Application_PostAcquireRequestState(object sender, EventArgs e)
+        {
+                           var app = Context.ApplicationInstance;
+                String acceptEncodings = app.Request.Headers.Get("Accept-Encoding");
+
+                if (!String.IsNullOrEmpty(acceptEncodings))
+                {
+                    System.IO.Stream baseStream = app.Response.Filter;
+                    acceptEncodings = acceptEncodings.ToLower();
+
+                    if (acceptEncodings.Contains("br") || acceptEncodings.Contains("brotli"))
+                    {
+                        app.Response.Filter = new BrotliStream(baseStream, System.IO.Compression.CompressionMode.Compress);
+                        app.Response.AppendHeader("Content-Encoding", "br");
+                    }
+                    //other encodings
+                }
+           }      	]]>
+    </summary>
+    <releaseNotes>Support .NET 4.0 and above(x86/x64 only).</releaseNotes>
+    <copyright>Copyright Jinjun Xie 2016</copyright>
+    <tags>Brotli Compress Decompress .NET IIS Stream</tags>
+  </metadata>
+  	<files>
+			<file src="bin\$configuration$\Brotli.NET.pdb" target="lib" />
+			<file src="build\**" target="build" />
+			<!--
+			<file src="bin\$configuration$\brolib32.pdb" target="lib" />
+			<file src="bin\$configuration$\brolib32.dll" target="lib" />
+			<file src="bin\$configuration$\brolib64.pdb" target="lib" />
+			<file src="bin\$configuration$\brolib64.dll" target="lib" />
+			-->
+		</files>		  
+</package>
