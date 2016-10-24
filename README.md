@@ -14,9 +14,20 @@ To support dynamic compress in web applications,add the code like this in the Gl
 
                     if (acceptEncodings.Contains("br") || acceptEncodings.Contains("brotli"))
                     {
-                        app.Response.Filter = new BrotliStream(baseStream, System.IO.Compression.CompressionMode.Compress);
+                        app.Response.Filter = new Brotli.BrotliStream(baseStream, System.IO.Compression.CompressionMode.Compress);
                         app.Response.AppendHeader("Content-Encoding", "br");
                     }
-                    //other encodings
+                    else
+                    if (acceptEncodings.Contains("deflate"))
+                    {
+                        app.Response.Filter = new System.IO.Compression.DeflateStream(baseStream, System.IO.Compression.CompressionMode.Compress);
+                        app.Response.AppendHeader("Content-Encoding", "deflate");
+                    }
+                    else if (acceptEncodings.Contains("gzip"))
+                    {
+                        app.Response.Filter = new System.IO.Compression.GZipStream(baseStream, System.IO.Compression.CompressionMode.Compress);
+                        app.Response.AppendHeader("Content-Encoding", "gzip");
+                    }
+
                 }
            }      	
