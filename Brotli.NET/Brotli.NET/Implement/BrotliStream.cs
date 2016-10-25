@@ -183,9 +183,11 @@ namespace Brotli
             base.Dispose(disposing);
             _stream.Dispose();
             _intermediateStream.Dispose();
-            Marshal.FreeHGlobal(_ptrInputBuffer);
-            Marshal.FreeHGlobal(_ptrOutputBuffer);
+            if (_ptrInputBuffer!=IntPtr.Zero) Marshal.FreeHGlobal(_ptrInputBuffer);
+            if (_ptrOutputBuffer != IntPtr.Zero) Marshal.FreeHGlobal(_ptrOutputBuffer);
             _managedBuffer = null;
+            _ptrInputBuffer = IntPtr.Zero;
+            _ptrOutputBuffer = IntPtr.Zero;
         }
 
         public void TruncateBeginning(MemoryStream ms, int numberOfBytesToRemove)
