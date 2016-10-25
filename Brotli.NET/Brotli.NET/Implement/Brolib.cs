@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Brotli
@@ -89,6 +90,20 @@ namespace Brotli
                 Brolib64.BrotliEncoderDestroyInstance(state);
             }
         }
+
+        public static UInt32 BrotliEncoderVersion()
+        {
+            if (UseX86)
+            {
+                return Brolib32.BrotliEncoderVersion();
+            }
+            else
+            {
+                return Brolib64.BrotliEncoderVersion();
+            }
+        }
+
+
         #endregion
         #region Decoder
         public static IntPtr BrotliDecoderCreateInstance()
@@ -147,6 +162,75 @@ namespace Brotli
                 Brolib64.BrotliDecoderDestroyInstance(state);
             }
         }
+
+        public static UInt32 BrotliDecoderVersion()
+        {
+            if (UseX86)
+            {
+                return Brolib32.BrotliDecoderVersion();
+            }
+            else
+            {
+                return Brolib64.BrotliDecoderVersion();
+            }
+        }
+
+        public static bool BrotliDecoderIsUsed(IntPtr state)
+        {
+            if (UseX86)
+            {
+                return Brolib32.BrotliDecoderIsUsed(state);
+            }
+            else
+            {
+                return Brolib64.BrotliDecoderIsUsed(state);
+            }
+        }
+        public static bool BrotliDecoderIsFinished(IntPtr state)
+        {
+            if (UseX86)
+            {
+                return Brolib32.BrotliDecoderIsFinished(state);
+            }
+            else
+            {
+                return Brolib64.BrotliDecoderIsFinished(state);
+            }
+
+        }
+        public static Int32 BrotliDecoderGetErrorCode(IntPtr state)
+        {
+            if (UseX86)
+            {
+                return Brolib32.BrotliDecoderGetErrorCode(state);
+            }
+            else
+            {
+                return Brolib64.BrotliDecoderGetErrorCode(state);
+            }
+        }
+
+        public static String  BrotliDecoderErrorString(Int32 code)
+        {
+            IntPtr r = IntPtr.Zero;
+            if (UseX86)
+            {
+                r = Brolib32.BrotliDecoderErrorString(code);
+            }
+            else
+            {
+                r = Brolib64.BrotliDecoderErrorString(code);
+            }
+
+            if (r != IntPtr.Zero)
+            {
+                return Marshal.PtrToStringAnsi(r);
+            }
+            return String.Empty;
+
+
+        }
+
 
         #endregion
     }

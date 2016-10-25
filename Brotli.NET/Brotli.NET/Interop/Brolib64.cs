@@ -28,6 +28,9 @@ namespace Brotli
 
         [DllImport("brolib64.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void BrotliEncoderDestroyInstance(IntPtr state);
+        [DllImport("brolib64.dll", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern UInt32 BrotliEncoderVersion();
+
         #endregion
         #region Decoder
         [DllImport("brolib64.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -43,6 +46,19 @@ namespace Brotli
 
         [DllImport("brolib64.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void BrotliDecoderDestroyInstance(IntPtr state);
+
+        [DllImport("brolib64.dll", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern UInt32 BrotliDecoderVersion();
+
+        [DllImport("brolib64.dll", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern bool BrotliDecoderIsUsed(IntPtr state);
+        [DllImport("brolib64.dll", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern bool BrotliDecoderIsFinished(IntPtr state);
+        [DllImport("brolib64.dll", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern Int32 BrotliDecoderGetErrorCode(IntPtr state);
+        [DllImport("brolib64.dll", CallingConvention = CallingConvention.Cdecl,CharSet= CharSet.Ansi)]
+        internal static extern IntPtr BrotliDecoderErrorString(Int32 code);
+
 
         #endregion
     }

@@ -6,6 +6,7 @@
     <title>Brotli.NET</title>
     <authors>Jinjun Xie</authors>
     <owners>Jinjun Xie</owners>
+    <projectUrl>https://github.com/XieJJ99/brotli.net</projectUrl>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The .NET implement of the Brotli algothrim which is supported in Chrome and Firefox. Use the Brotli.BrotliStream class to compress/decompress the data.</description>    
