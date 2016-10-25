@@ -13,7 +13,6 @@ To compress a stream to brotli data:
                bs.SetQuality(11);
                bs.SetWindow(22);
                msInput.CopyTo(bs);
-               msOutput.Seek(0, System.IO.SeekOrigin.Begin);
                bs.Close();
                output = msOutput.ToArray();
                return output;
