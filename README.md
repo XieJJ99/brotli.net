@@ -31,3 +31,39 @@ To support dynamic compress in web applications,add the code like this in the Gl
 
                 }
            }      	
+
+To compress a stream to brotli data:
+
+       public Byte[] Encode(Byte[] input)
+       {
+           Byte[] output = null;
+           using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(input))
+           using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
+           using (BrotliStream bs = new BrotliStream(msOutput, System.IO.Compression.CompressionMode.Compress))
+           {
+               bs.SetQuality(11);
+               bs.SetWindow(22);
+               msInput.CopyTo(bs);
+               msOutput.Seek(0, System.IO.SeekOrigin.Begin);
+               bs.Close();
+               output = msOutput.ToArray();
+               return output;
+           }
+       }
+
+To decompress a brotli stream:
+
+       public Byte[] Decode(Byte[] input)
+       {
+           using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(input))
+           using (BrotliStream bs = new BrotliStream(msInput, System.IO.Compression.CompressionMode.Decompress))
+           using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
+           {
+               bs.CopyTo(msOutput);
+               msOutput.Seek(0, System.IO.SeekOrigin.Begin);
+               output = msOutput.ToArray();
+               return output;
+           }
+
+       }
+ 
