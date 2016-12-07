@@ -162,7 +162,6 @@ namespace Brotli
 
             base.Dispose(disposing);
 
-            mStream.Dispose();
             mIntermediateStream.Dispose();
 
             if (mPtrInputBuffer != IntPtr.Zero)
@@ -178,6 +177,14 @@ namespace Brotli
             }
 
             mManagedBuffer = null;
+
+            if (mCompressionMode == CompressionMode.Compress)
+            {
+                Brolib.BrotliEncoderDestroyInstance(mPtrState);
+                return;
+            }
+
+            Brolib.BrotliDecoderDestroyInstance(mPtrState);
         }
 
         public void TruncateBeginning(MemoryStream ms, int numberOfBytesToRemove)
