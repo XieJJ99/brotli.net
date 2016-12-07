@@ -1,6 +1,9 @@
 ﻿using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Brotli;
+using Brotli.Exceptions;
 
 namespace TestBrotli
 {
