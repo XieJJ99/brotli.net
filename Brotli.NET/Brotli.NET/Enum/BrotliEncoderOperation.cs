@@ -1,6 +1,6 @@
-﻿namespace Brotli
+﻿namespace Brotli.Enum
 {
-    public enum BrotliEncoderOperation : int
+    public enum BrotliEncoderOperation
     {
         Process = 0,
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+using Brotli.Enum;
+
 namespace Brotli
 {
     class Brolib64

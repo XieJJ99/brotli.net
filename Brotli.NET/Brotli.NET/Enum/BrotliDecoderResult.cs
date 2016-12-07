@@ -1,4 +1,4 @@
-﻿namespace Brotli
+﻿namespace Brotli.Enum
 {
     public enum BrotliDecoderResult
     {

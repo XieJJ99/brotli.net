@@ -1,6 +1,6 @@
-﻿namespace Brotli
+﻿namespace Brotli.Enum
 {
-    public enum BrotliEncoderParameter : int
+    public enum BrotliEncoderParameter
     {
         Mode = 0,
 
