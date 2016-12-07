@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Brotli
+﻿namespace Brotli
 {
     public enum BrotliEncoderOperation : int
     {
         Process = 0,
+
         /// <summary>
         /// Request output stream to flush. Performed when input stream is depleted
         /// and there is enough space in output stream.
         /// </summary>
         Flush = 1,
+        
         /// <summary>
         /// Request output stream to finish. Performed when input stream is depleted
         /// and there is enough space in output stream.
