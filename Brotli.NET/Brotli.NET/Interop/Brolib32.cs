@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Brotli
 {
@@ -10,13 +7,16 @@ namespace Brotli
     {
         #region Encoder
         [DllImport("brolib32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr BrotliEncoderCreateInstance(IntPtr allocFunc, IntPtr freeFunc, IntPtr opaque);
+        internal static extern IntPtr BrotliEncoderCreateInstance(
+            IntPtr allocFunc, IntPtr freeFunc, IntPtr opaque);
 
         [DllImport("brolib32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern bool BrotliEncoderSetParameter(IntPtr state, BrotliEncoderParameter parameter, UInt32 value);
+        internal static extern bool BrotliEncoderSetParameter(
+            IntPtr state, BrotliEncoderParameter parameter, UInt32 value);
 
         [DllImport("brolib32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void BrotliEncoderSetCustomDictionary(IntPtr state, UInt32 size, IntPtr dict);
+        internal static extern void BrotliEncoderSetCustomDictionary(
+            IntPtr state, UInt32 size, IntPtr dict);
 
         [DllImport("brolib32.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern bool BrotliEncoderCompressStream(
@@ -28,15 +28,19 @@ namespace Brotli
 
         [DllImport("brolib32.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void BrotliEncoderDestroyInstance(IntPtr state);
+
         [DllImport("brolib32.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern UInt32 BrotliEncoderVersion();
         #endregion
+
         #region Decoder
         [DllImport("brolib32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr BrotliDecoderCreateInstance(IntPtr allocFunc, IntPtr freeFunc, IntPtr opaque);
+        internal static extern IntPtr BrotliDecoderCreateInstance(
+            IntPtr allocFunc, IntPtr freeFunc, IntPtr opaque);
 
         [DllImport("brolib32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void BrotliDecoderSetCustomDictionary(IntPtr state, UInt32 size, IntPtr dict);
+        internal static extern void BrotliDecoderSetCustomDictionary(
+            IntPtr state, UInt32 size, IntPtr dict);
 
         [DllImport("brolib32.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern BrotliDecoderResult BrotliDecoderDecompressStream(
@@ -51,10 +55,13 @@ namespace Brotli
 
         [DllImport("brolib32.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern bool BrotliDecoderIsUsed(IntPtr state);
+
         [DllImport("brolib32.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern bool BrotliDecoderIsFinished(IntPtr state);
+
         [DllImport("brolib32.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern Int32 BrotliDecoderGetErrorCode(IntPtr state);
+
         [DllImport("brolib32.dll", CallingConvention = CallingConvention.Cdecl,CharSet= CharSet.Ansi)]
         internal static extern IntPtr BrotliDecoderErrorString(Int32 code);
         #endregion
