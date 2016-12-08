@@ -28,7 +28,7 @@ namespace Brotli
             get { return mQuality; }
             set
             {
-                AssertQuailityInRange(value);
+                AssertQualityInRange(value);
                 mQuality = value;
                 Brolib.BrotliEncoderSetParameter(
                     mPtrState,
@@ -293,7 +293,7 @@ namespace Brotli
                 "Window", "The window size must be between 10 and 24.");
         }
 
-        static void AssertQuailityInRange(uint quality)
+        static void AssertQualityInRange(uint quality)
         {
             if (quality <= 11)
                 return;
