@@ -33,12 +33,12 @@ namespace TestBrotli
             byte[] output = new byte[input.Length];
 
             int outputLength = 0;
-            using (BrotliNET bc = new BrotliNET(CompressionMode.Compress))
+            using (BrotliNET brotli = new BrotliNET(CompressionMode.Compress))
             {
-                bc.Quality = 11;
-                bc.Window = 22;
+                brotli.Quality = 11;
+                brotli.Window = 22;
 
-                outputLength = bc.Compress(input, 0, input.Length, output);
+                outputLength = brotli.Compress(input, 0, input.Length, output);
             }
 
             Assert.IsTrue(ArraySliceEquals(
@@ -54,9 +54,9 @@ namespace TestBrotli
             byte[] output = new byte[input.Length * 4];
 
             int outputLength = 0;
-            using (BrotliNET bc = new BrotliNET(CompressionMode.Decompress))
+            using (BrotliNET brotli = new BrotliNET(CompressionMode.Decompress))
             {
-                outputLength = bc.Decompress(input, 0, input.Length, output);
+                outputLength = brotli.Decompress(input, 0, input.Length, output);
             }
 
             string textOutput = Encoding.UTF8.GetString(output, 0, outputLength);
