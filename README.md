@@ -1,71 +1,42 @@
-# brotli.net
-The .net implement of the brotli algorithm.
+# Brotli-dot-NET
 
-To compress a stream to brotli data:
+C# bindings for the Windows native libraries of the Brotli compression algorithm.  
+Re-wrote from [XieJJ99/brotli.net](https://github.com/XieJJ99/brotli.net) with buffers in mind (instead of streams, but will likely support both in the future).
 
-       public Byte[] Encode(Byte[] input)
-       {
-           Byte[] output = null;
-           using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(input))
-           using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
-           using (BrotliStream bs = new BrotliStream(msOutput, System.IO.Compression.CompressionMode.Compress))
-           {
-               bs.SetQuality(11);
-               bs.SetWindow(22);
-               msInput.CopyTo(bs);
-               bs.Close();
-               output = msOutput.ToArray();
-               return output;
-           }
-       }
+------
 
-To decompress a brotli stream:
+To compress a buffer:
 
-       public Byte[] Decode(Byte[] input)
-       {
-           using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(input))
-           using (BrotliStream bs = new BrotliStream(msInput, System.IO.Compression.CompressionMode.Decompress))
-           using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
-           {
-               bs.CopyTo(msOutput);
-               msOutput.Seek(0, System.IO.SeekOrigin.Begin);
-               output = msOutput.ToArray();
-               return output;
-           }
+```C#
+byte[] flatBytes = GetMyAwesomeDataToCompress();
+byte[] output = new byte[flatBytes.Length];
 
-       }
+int outputLength = 0;
+using (BrotliNET brotli = new BrotliNET(CompressionMode.Compress))
+{
+    brotli.Quality = 11;
+    brotli.Window = 22;
 
-To support dynamic compress in web applications,add the code like this in the Global.asax.cs:
+    outputLength = brotli.Compress(flatBytes, 0, flatBytes.Length, output);
+}
 
-        protected void Application_PostAcquireRequestState(object sender, EventArgs e)
-        {
-                           var app = Context.ApplicationInstance;
-                String acceptEncodings = app.Request.Headers.Get("Accept-Encoding");
+// The first 'ouputLength' bytes of the output buffer are the valid ones
+WriteMyAwesomeCompressedData(output, output.Length);
+```
 
-                if (!String.IsNullOrEmpty(acceptEncodings))
-                {
-                    System.IO.Stream baseStream = app.Response.Filter;
-                    acceptEncodings = acceptEncodings.ToLower();
+To decompress a buffer:
 
-                    if (acceptEncodings.Contains("br") || acceptEncodings.Contains("brotli"))
-                    {
-                        app.Response.Filter = new Brotli.BrotliStream(baseStream, System.IO.Compression.CompressionMode.Compress);
-                        app.Response.AppendHeader("Content-Encoding", "br");
-                    }
-                    else
-                    if (acceptEncodings.Contains("deflate"))
-                    {
-                        app.Response.Filter = new System.IO.Compression.DeflateStream(baseStream, System.IO.Compression.CompressionMode.Compress);
-                        app.Response.AppendHeader("Content-Encoding", "deflate");
-                    }
-                    else if (acceptEncodings.Contains("gzip"))
-                    {
-                        app.Response.Filter = new System.IO.Compression.GZipStream(baseStream, System.IO.Compression.CompressionMode.Compress);
-                        app.Response.AppendHeader("Content-Encoding", "gzip");
-                    }
+```C#
+byte[] compressedBytes = GetMyAwesomeDataToDecompress();
+byte[] output = new byte[compressedBytes.Length * 4];
 
-                }
-           }      	
+int outputLength = 0;
+using (BrotliNET brotli = new BrotliNET(CompressionMode.Decompress))
+{
+    outputLength = brotli.Decompress(
+          compressedBytes, 0, compressedBytes.Length, output);
+}
 
-
- 
+// The first 'ouputLength' bytes of the output buffer are the valid ones
+WriteMyAwesomeDecompressedData(output, output.Length);
+```
