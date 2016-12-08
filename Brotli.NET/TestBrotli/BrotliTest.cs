@@ -1,9 +1,10 @@
 ﻿using System;
+using System.IO.Compression;
+using System.Text;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Brotli;
-using Brotli.Exceptions;
 
 namespace TestBrotli
 {
@@ -13,93 +14,100 @@ namespace TestBrotli
         [TestMethod]
         public void TestErrorDetection()
         {
-            Boolean errorDetected = false;
-            using (System.IO.MemoryStream msInvalid = new System.IO.MemoryStream())
+            byte[] invalidInput = new byte[] { 0x1, 0x2, 0x3, 0x4 };
+            byte[] output = new byte[64 * 1024];
+
+            using (BrotliNET bc = new BrotliNET(CompressionMode.Decompress))
             {
-                var rawBytes = new Byte[] { 0x1, 0x2, 0x3, 0x4 };
-                msInvalid.Write(rawBytes, 0, rawBytes.Length);
-                msInvalid.Seek(0, System.IO.SeekOrigin.Begin);
-
-                using (BrotliStream bs = new BrotliStream(
-                    msInvalid, System.IO.Compression.CompressionMode.Decompress))
-                using (System.IO.MemoryStream msOut = new System.IO.MemoryStream())
-                {
-                    int bufferSize = 64 * 1024;
-                    byte[] buffer = new byte[bufferSize];
-                    while (true)
-                    {
-                        try
-                        {
-                            var cnt = bs.Read(buffer, 0, bufferSize);
-                            if (cnt <= 0) break;
-                            msOut.Write(buffer, 0, cnt);
-                        }
-                        catch (BrotliException)
-                        {
-                            errorDetected = true;
-                            break;
-                        }
-                    }
-                }
+                // No Assert.Throws(···) in Microsoft.VisualStudio.TestTools.UnitTesting.Assert ??
+                AssertThrows(
+                    () => { bc.Decompress(invalidInput, 0, 4, output); },
+                    "No error was thrown for an invalid input.");
             }
-
-            Assert.IsTrue(errorDetected, "No error was detected!");
-        }
-
-
-        public Boolean ArrayEqual(Byte[] a1, Byte[] a2)
-        {
-            if (a1 == null && a2 == null) return true;
-            if (a1 == null || a2 == null) return false;
-            if (a1.Length != a2.Length) return false;
-            for (var i = 0; i < a1.Length; i++)
-            {
-                if (a1[i] != a2[i]) return false;
-            }
-            return true;
         }
 
         [TestMethod]
         public void TestEncode()
         {
-            var input = System.Text.Encoding.UTF8.GetBytes(TestResource.BingCN);
-            Byte[] output = null;
-            using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(input))
-            using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
+            byte[] input = Encoding.UTF8.GetBytes(TestResource.BingCN);
+            byte[] output = new byte[input.Length];
+
+            int outputLength = 0;
+            using (BrotliNET brotli = new BrotliNET(CompressionMode.Compress))
             {
-                using (BrotliStream bs = new BrotliStream(
-                    msOutput, System.IO.Compression.CompressionMode.Compress))
-                {
-                    bs.SetQuality(11);
-                    bs.SetWindow(22);
-                    msInput.CopyTo(bs);
-                }
+                brotli.Quality = 11;
+                brotli.Window = 22;
 
-                output = msOutput.ToArray();
-
-                Assert.IsTrue(
-                    ArrayEqual(output, TestResource.BingCN_Compressed),
-                    "The compressed file differs from the expected one");
+                outputLength = brotli.Compress(input, 0, input.Length, output);
             }
+
+            Assert.IsTrue(ArraySliceEquals(
+                TestResource.BingCN_Compressed, 0, TestResource.BingCN_Compressed.Length,
+                output, 0, outputLength),
+                "The compressed file differs from the expected one.");
         }
 
         [TestMethod]
         public void TestDecode()
         {
-            var input = TestResource.BingCN_Compressed;
+            byte[] input = TestResource.BingCN_Compressed;
+            byte[] output = new byte[input.Length * 4];
 
-            using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(input))
-            using (BrotliStream bs = new BrotliStream(msInput, System.IO.Compression.CompressionMode.Decompress))
-            using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
+            int outputLength = 0;
+            using (BrotliNET brotli = new BrotliNET(CompressionMode.Decompress))
             {
-                bs.CopyTo(msOutput);
-
-                string text = System.Text.Encoding.UTF8.GetString(msOutput.ToArray());
-
-                Assert.AreEqual(
-                    text, TestResource.BingCN,
-                    "The uncompressed file differs from the expected one.");
+                outputLength = brotli.Decompress(input, 0, input.Length, output);
             }
+
+            string textOutput = Encoding.UTF8.GetString(output, 0, outputLength);
+
+            Assert.AreEqual(
+                TestResource.BingCN, textOutput,
+                "The decompressed file differs from the expected one.");
+        }
+
+        static bool ArraySliceEquals(
+            byte[] left, int lStart, int lCount,
+            byte[] right, int rStart, int rCount)
+        {
+            if (left == null || right == null)
+                return ReferenceEquals(left, right);
+
+            if (left.Length < lStart + lCount)
+                return false;
+
+            if (right.Length < rStart + rCount)
+                return false;
+
+            if (lCount != rCount)
+                return false;
+
+            for (int i = 0; i < lCount; i++)
+            {
+                if (left[lStart + i] != right[rStart + i])
+                    return false;
+            }
+
+            return true;
+        }
+
+        static void AssertThrows(Action action, string message)
+        {
+            bool hasFailed = false;
+
+            try
+            {
+                action();
+            }
+            catch (Exception)
+            {
+                hasFailed = true;
+            }
+
+            if (hasFailed)
+                return;
+
+            Assert.Fail(message);
         }
     }
 }

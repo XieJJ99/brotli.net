@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="Exception\BrotliException.cs" />
     <Compile Include="Implement\Brolib.cs" />
-    <Compile Include="Implement\BrotliStream.cs" />
+    <Compile Include="Implement\BrotliNET.cs" />
     <Compile Include="Interop\Brolib32.cs" />
     <Compile Include="Enum\BrotliDecoderResult.cs" />
     <Compile Include="Enum\BrotliEncoderOperation.cs" />
