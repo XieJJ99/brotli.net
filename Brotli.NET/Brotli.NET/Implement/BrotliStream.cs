@@ -27,10 +27,14 @@ namespace Brotli
         protected Boolean _endOfStream = false;
         protected int _readOffset = 0;
         protected BrotliDecoderResult _lastDecodeResult = BrotliDecoderResult.NeedsMoreInput;
-        public BrotliStream(Stream baseStream, CompressionMode mode)
+        protected Boolean _leaveOpen = false;
+
+        public BrotliStream(Stream baseStream, CompressionMode mode,bool leaveOpen)
         {
+            if (baseStream == null) throw new ArgumentNullException("baseStream");
             _mode = mode;
             _stream = baseStream;
+            _leaveOpen = leaveOpen;
             if (_mode == CompressionMode.Compress)
             {
                 _state = Brolib.BrotliEncoderCreateInstance();
@@ -55,6 +59,10 @@ namespace Brotli
             _ptrNextOutput = _ptrOutputBuffer;
 
             _managedBuffer = new Byte[BufferSize];
+        }
+        public BrotliStream(Stream baseStream, CompressionMode mode):this(baseStream,mode,false)
+        {
+
         }
 
         /// <summary>
@@ -181,7 +189,7 @@ namespace Brotli
                 FlushBrotliStream(true);
             }
             base.Dispose(disposing);
-            _stream.Dispose();
+            if (!_leaveOpen)  _stream.Dispose();
             _intermediateStream.Dispose();
             if (_ptrInputBuffer!=IntPtr.Zero) Marshal.FreeHGlobal(_ptrInputBuffer);
             if (_ptrOutputBuffer != IntPtr.Zero) Marshal.FreeHGlobal(_ptrOutputBuffer);
