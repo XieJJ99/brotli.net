@@ -154,12 +154,14 @@ namespace Brotli
             }
             if (_mode == CompressionMode.Compress)
             {
-                FlushBrotliStream(false);
+               FlushBrotliStream(false);
             }
         }
 
         protected virtual void FlushBrotliStream(Boolean finished)
         {
+            //test if the resource has been freed
+            if (_state == IntPtr.Zero) return;
             if (Brolib.BrotliEncoderIsFinished(_state)) return;
             BrotliEncoderOperation op = finished ? BrotliEncoderOperation.Finish : BrotliEncoderOperation.Flush;
             UInt32 totalOut = 0;
