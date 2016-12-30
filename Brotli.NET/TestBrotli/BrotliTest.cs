@@ -38,8 +38,9 @@ namespace TestBrotli
                     //System.IO.File.WriteAllBytes(@"C:\Temp\MSN20160606_original.pdf", msOut.ToArray());
                 }
             }
-            Assert.AreEqual(true, errorDetected);
+            Assert.IsTrue(errorDetected);
         }
+
 
 
         public Boolean ArrayEqual(Byte[] a1,Byte[] a2)
@@ -66,7 +67,6 @@ namespace TestBrotli
                 bs.SetQuality(11);
                 bs.SetWindow(22);
                 msInput.CopyTo(bs);
-                msOutput.Seek(0, System.IO.SeekOrigin.Begin);
                 bs.Close();
                 output = msOutput.ToArray();
                 Boolean eq = ArrayEqual(output, TestResource.BingCN_Compressed);
