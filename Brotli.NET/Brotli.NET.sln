@@ -1,13 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brotli.NET", "Brotli.NET\Brotli.NET.csproj", "{2AE0D83F-BBF7-4A97-9168-94CD26D0CB9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brotli.NET4", "Brotli.NET4\Brotli.NET4.csproj", "{2AE0D83F-BBF7-4A97-9168-94CD26D0CB9F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBrotli", "TestBrotli\TestBrotli.csproj", "{2B5BD60E-BF5E-4197-8DD1-B29D07EC11CD}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Brotli.Core", "Brotli.Core\Brotli.Core.shproj", "{E812A66E-F800-40F0-AE2C-9D1FCB491701}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brotli.NET2", "Brotli.NET2\Brotli.NET2.csproj", "{0CEF77F3-E7CC-4C0D-98DD-1F549C3689BE}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Brotli.Core\Brotli.Core.projitems*{0cef77f3-e7cc-4c0d-98dd-1f549c3689be}*SharedItemsImports = 4
+		Brotli.Core\Brotli.Core.projitems*{2ae0d83f-bbf7-4a97-9168-94cd26d0cb9f}*SharedItemsImports = 4
+		Brotli.Core\Brotli.Core.projitems*{e812a66e-f800-40f0-ae2c-9d1fcb491701}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -21,6 +30,10 @@ Global
 		{2B5BD60E-BF5E-4197-8DD1-B29D07EC11CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B5BD60E-BF5E-4197-8DD1-B29D07EC11CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B5BD60E-BF5E-4197-8DD1-B29D07EC11CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CEF77F3-E7CC-4C0D-98DD-1F549C3689BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CEF77F3-E7CC-4C0D-98DD-1F549C3689BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CEF77F3-E7CC-4C0D-98DD-1F549C3689BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CEF77F3-E7CC-4C0D-98DD-1F549C3689BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

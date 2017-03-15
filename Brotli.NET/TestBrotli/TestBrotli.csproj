@@ -59,9 +59,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Brotli.NET\Brotli.NET.csproj">
+    <ProjectReference Include="..\Brotli.NET\Brotli.NET4.csproj">
       <Project>{2ae0d83f-bbf7-4a97-9168-94cd26d0cb9f}</Project>
-      <Name>Brotli.NET</Name>
+      <Name>Brotli.NET4</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
