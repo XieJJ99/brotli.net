@@ -1,5 +1,0 @@
-D:\Project\OpenSource\brotli.net\Brotli.NET\Brotli.NET2\obj\Debug\Brotli.NET2.csprojResolveAssemblyReference.cache
-D:\Project\OpenSource\brotli.net\Brotli.NET\Brotli.NET2\bin\Debug\Brotli.NET.dll
-D:\Project\OpenSource\brotli.net\Brotli.NET\Brotli.NET2\bin\Debug\Brotli.NET.pdb
-D:\Project\OpenSource\brotli.net\Brotli.NET\Brotli.NET2\obj\Debug\Brotli.NET.dll
-D:\Project\OpenSource\brotli.net\Brotli.NET\Brotli.NET2\obj\Debug\Brotli.NET.pdb

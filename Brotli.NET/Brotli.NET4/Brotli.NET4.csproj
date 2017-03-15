@@ -49,8 +49,8 @@
   <Import Project="..\Brotli.Core\Brotli.Core.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y $(ProjectDir)build\brolib32.dll $(TargetDir)
-copy /Y $(ProjectDir)build\brolib64.dll $(TargetDir)</PostBuildEvent>
+    <PostBuildEvent>copy /Y $(SolutionDir)build\brolib32.dll $(TargetDir)
+copy /Y $(SolutionDir)build\brolib64.dll $(TargetDir)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
