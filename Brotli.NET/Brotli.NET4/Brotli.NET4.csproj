@@ -50,7 +50,12 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y $(SolutionDir)build\brolib32.dll $(TargetDir)
-copy /Y $(SolutionDir)build\brolib64.dll $(TargetDir)</PostBuildEvent>
+copy /Y $(SolutionDir)build\brolib64.dll $(TargetDir)
+copy /Y $(SolutionDir)build\brolib32.dll  $(SolutionDir)lib\
+copy /Y $(SolutionDir)build\brolib64.dll  $(SolutionDir)lib\
+copy /Y $(TargetDir)$(TargetName).pdb $(SolutionDir)lib\net40\
+copy /Y $(TargetDir)$(TargetName).dll $(SolutionDir)lib\net40\
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
