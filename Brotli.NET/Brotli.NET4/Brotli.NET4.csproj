@@ -33,12 +33,6 @@
     </NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="broclr4_32">
-      <HintPath>..\build\broclr4_32.dll</HintPath>
-    </Reference>
-    <Reference Include="broclr4_64">
-      <HintPath>..\build\broclr4_64.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,8 +53,8 @@
   <PropertyGroup>
     <PostBuildEvent>copy /Y $(SolutionDir)build\brolib32.dll $(TargetDir)
 copy /Y $(SolutionDir)build\brolib64.dll $(TargetDir)
-copy /Y $(SolutionDir)build\brolib32.dll  $(SolutionDir)lib\
-copy /Y $(SolutionDir)build\brolib64.dll  $(SolutionDir)lib\
+copy /Y $(SolutionDir)build\broclr4_32.dll $(TargetDir)
+copy /Y $(SolutionDir)build\broclr4_64.dll $(TargetDir)
 copy /Y $(TargetDir)$(TargetName).pdb $(SolutionDir)lib\net40\
 copy /Y $(TargetDir)$(TargetName).dll $(SolutionDir)lib\net40\
 </PostBuildEvent>

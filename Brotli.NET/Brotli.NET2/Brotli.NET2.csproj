@@ -32,12 +32,6 @@
     </NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="broclr2_32">
-      <HintPath>..\build\broclr2_32.dll</HintPath>
-    </Reference>
-    <Reference Include="broclr2_64">
-      <HintPath>..\build\broclr2_64.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -50,8 +44,8 @@
   <PropertyGroup>
     <PostBuildEvent>copy /Y $(SolutionDir)build\brolib32.dll $(TargetDir)
 copy /Y $(SolutionDir)build\brolib64.dll $(TargetDir)
-copy /Y $(SolutionDir)build\brolib32.dll  $(SolutionDir)lib\
-copy /Y $(SolutionDir)build\brolib64.dll  $(SolutionDir)lib\
+copy /Y $(SolutionDir)build\broclr2_32.dll $(TargetDir)
+copy /Y $(SolutionDir)build\broclr2_64.dll $(TargetDir)
 copy /Y $(TargetDir)$(TargetName).pdb $(SolutionDir)lib\net20\
 copy /Y $(TargetDir)$(TargetName).dll $(SolutionDir)lib\net20\
 </PostBuildEvent>

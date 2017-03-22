@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Brotli
@@ -6,143 +7,287 @@ namespace Brotli
     #region Helper reference class
     internal class BrotliHelperRef32
     {
+        #region delegates
+        delegate IntPtr DelegateDecoderCreateInstance(IntPtr allocFunc, IntPtr freeFunc, IntPtr opaque);
+        delegate int DelegateDecoderDecompressStream(IntPtr state, ref uint availableIn, ref IntPtr nextIn, ref uint availableOut, ref IntPtr nextOut, out uint totalOut);
+        delegate void DelegateDecoderDestroyInstance(IntPtr state);
+        delegate IntPtr DelegateDecoderErrorString(int code);
+        delegate int DelegateDecoderGetErrorCode(IntPtr state);
+        delegate bool DelegateDecoderIsFinished(IntPtr state);
+        delegate bool DelegateDecoderIsUsed(IntPtr state);
+        delegate void DelegateDecoderSetCustomDictionary(IntPtr state, uint size, IntPtr dict);
+        delegate uint DelegateDecoderVersion();
+
+        delegate bool DelegateEncoderCompressStream(IntPtr state, int op, ref uint availableIn, ref IntPtr nextIn, ref uint availableOut, ref IntPtr nextOut, out uint totalOut);
+        delegate IntPtr DelegateEncoderCreateInstance(IntPtr allocFunc, IntPtr freeFunc, IntPtr opaque);
+        delegate void DelegateEncoderDestroyInstance(IntPtr state);
+        delegate bool DelegateEncoderIsFinished(IntPtr state);
+        delegate void DelegateEncoderSetCustomDictionary(IntPtr state, uint size, IntPtr dict);
+        delegate bool DelegateEncoderSetParameter(IntPtr state, int parameter, uint value);
+        delegate uint DelegateEncoderVersion();
+
+        static DelegateDecoderCreateInstance _funcDecoderCreateInstance;
+        static DelegateDecoderDecompressStream _funcDecoderDecompressStream;
+        static DelegateDecoderDestroyInstance _funcDecoderDestroyInstance;
+        static DelegateDecoderErrorString _funcDecoderErrorString;
+        static DelegateDecoderGetErrorCode _funcDecoderGetErrorCode;
+        static DelegateDecoderIsFinished _funcDecoderIsFinished;
+        static DelegateDecoderIsUsed _funcDecoderIsUsed;
+        static DelegateDecoderSetCustomDictionary _funcDecoderSetCustomerDictionary;
+        static DelegateDecoderVersion _funcDecoderVersion;
+
+        static DelegateEncoderCompressStream _funcEncoderCompressStream;
+        static DelegateEncoderCreateInstance _funcEncoderCreateInstance;
+        static DelegateEncoderDestroyInstance _funcEncoderDestroyInstance;
+        static DelegateEncoderIsFinished _funcEncoderIsFinished;
+        static DelegateEncoderSetCustomDictionary _funcEncoderSetCustomerDictionary;
+        static DelegateEncoderSetParameter _funcEncoderSetParameter;
+        static DelegateEncoderVersion _funcEncoderVersion;
+
+        static T CreateDelegate<T>(Type target, String methodName)
+        {
+            Type t = typeof(T);
+            Object od = Delegate.CreateDelegate(t, target, methodName);
+            return (T)od;
+        }
+        static BrotliHelperRef32()
+        {
+            
+            var useNetFx2 =Environment.Version.Major < 4;
+            var dirPath = typeof(BrotliStream).Assembly.Location;
+            dirPath = dirPath.Substring(0,dirPath.LastIndexOfAny(new Char[] { '\\', '/' }));
+            var destAssemblyName = String.Format("{0}\\{1}", dirPath, useNetFx2 ? "broclr2_32.dll" : "broclr4_32.dll");
+            var destAssembly = Assembly.LoadFrom(destAssemblyName);
+            var destType = destAssembly.GetType("Brotli.BrotliHelper32");
+            _funcDecoderCreateInstance = CreateDelegate<DelegateDecoderCreateInstance>(destType, "DecoderCreateInstance");
+            _funcDecoderDecompressStream = CreateDelegate<DelegateDecoderDecompressStream>(destType, "DecoderDecompressStream");
+            _funcDecoderDestroyInstance = CreateDelegate<DelegateDecoderDestroyInstance>(destType,"DecoderDestroyInstance");
+            _funcDecoderErrorString = CreateDelegate<DelegateDecoderErrorString>(destType, "DecoderErrorString");
+            _funcDecoderGetErrorCode = CreateDelegate<DelegateDecoderGetErrorCode>(destType, "DecoderGetErrorCode");
+            _funcDecoderIsFinished = CreateDelegate<DelegateDecoderIsFinished>(destType, "DecoderIsFinished");
+            _funcDecoderIsUsed = CreateDelegate<DelegateDecoderIsUsed>(destType, "DecoderIsUsed");
+            _funcDecoderSetCustomerDictionary = CreateDelegate<DelegateDecoderSetCustomDictionary>(destType, "DecoderSetCustomDictionary");
+            _funcDecoderVersion = CreateDelegate<DelegateDecoderVersion>(destType, "DecoderVersion");
+
+            _funcEncoderCompressStream= CreateDelegate<DelegateEncoderCompressStream>(destType, "EncoderCompressStream");
+            _funcEncoderCreateInstance= CreateDelegate<DelegateEncoderCreateInstance>(destType,  "EncoderCreateInstance");
+            _funcEncoderDestroyInstance= CreateDelegate<DelegateEncoderDestroyInstance>(destType, "EncoderDestroyInstance");
+            _funcEncoderIsFinished= CreateDelegate<DelegateEncoderIsFinished>(destType, "EncoderIsFinished");
+            _funcEncoderSetCustomerDictionary= CreateDelegate<DelegateEncoderSetCustomDictionary>(destType, "EncoderSetCustomDictionary");
+            _funcEncoderSetParameter= CreateDelegate<DelegateEncoderSetParameter>(destType, "EncoderSetParameter");
+            _funcEncoderVersion= CreateDelegate<DelegateEncoderVersion>(destType, "EncoderVersion");
+        }
+        #endregion
+
         public static IntPtr DecoderCreateInstance(IntPtr allocFunc, IntPtr freeFunc, IntPtr opaque)
         {
-            return BrotliHelper32.DecoderCreateInstance(allocFunc, freeFunc, opaque);
+            return _funcDecoderCreateInstance(allocFunc, freeFunc, opaque);
         }
         public static int DecoderDecompressStream(IntPtr state, ref uint availableIn, ref IntPtr nextIn, ref uint availableOut, ref IntPtr nextOut, out uint totalOut)
         {
-            return BrotliHelper32.DecoderDecompressStream(state, ref availableIn, ref nextIn, ref availableOut, ref nextOut, out totalOut);
+            return _funcDecoderDecompressStream(state, ref availableIn, ref nextIn, ref availableOut, ref nextOut, out totalOut);
         }
         public static void DecoderDestroyInstance(IntPtr state)
         {
-            BrotliHelper32.DecoderDestroyInstance(state);
+            _funcDecoderDestroyInstance(state);
         }
         public static IntPtr DecoderErrorString(int code)
         {
-            return BrotliHelper32.DecoderErrorString(code);
+            return _funcDecoderErrorString(code);
         }
 
         public static int DecoderGetErrorCode(IntPtr state)
         {
-            return BrotliHelper32.DecoderGetErrorCode(state);
+            return _funcDecoderGetErrorCode(state);
         }
 
         public static bool DecoderIsFinished(IntPtr state)
         {
-            return BrotliHelper32.DecoderIsFinished(state);
+            return _funcDecoderIsFinished(state);
         }
         public static bool DecoderIsUsed(IntPtr state)
         {
-            return BrotliHelper32.DecoderIsUsed(state);
+            return _funcDecoderIsUsed(state);
         }
         public static void DecoderSetCustomDictionary(IntPtr state, uint size, IntPtr dict)
         {
-            BrotliHelper32.DecoderSetCustomDictionary(state, size, dict);
+            _funcDecoderSetCustomerDictionary(state, size, dict);
         }
         public static uint DecoderVersion()
         {
-            return BrotliHelper32.DecoderVersion();
+            return _funcDecoderVersion();
         }
         public static bool EncoderCompressStream(IntPtr state, int op, ref uint availableIn, ref IntPtr nextIn, ref uint availableOut, ref IntPtr nextOut, out uint totalOut)
         {
-            return BrotliHelper32.EncoderCompressStream(state, op, ref availableIn, ref nextIn, ref availableOut, ref nextOut, out totalOut);
+            return _funcEncoderCompressStream(state, op, ref availableIn, ref nextIn, ref availableOut, ref nextOut, out totalOut);
         }
 
         public static IntPtr EncoderCreateInstance(IntPtr allocFunc, IntPtr freeFunc, IntPtr opaque)
         {
-            return BrotliHelper32.EncoderCreateInstance(allocFunc, freeFunc, opaque);
+            return _funcEncoderCreateInstance(allocFunc, freeFunc, opaque);
         }
         public static void EncoderDestroyInstance(IntPtr state)
         {
-            BrotliHelper32.EncoderDestroyInstance(state);
+            _funcEncoderDestroyInstance(state);
         }
         public static bool EncoderIsFinished(IntPtr state)
         {
-            return BrotliHelper32.EncoderIsFinished(state);
+            return _funcEncoderIsFinished(state);
         }
         public static void EncoderSetCustomDictionary(IntPtr state, uint size, IntPtr dict)
         {
-            BrotliHelper32.EncoderSetCustomDictionary(state, size, dict);
+            _funcEncoderSetCustomerDictionary(state, size, dict);
         }
         public static bool EncoderSetParameter(IntPtr state, int parameter, uint value)
         {
-            return BrotliHelper32.EncoderSetParameter(state, parameter, value);
+            return _funcEncoderSetParameter(state, parameter, value);
         }
         public static uint EncoderVersion()
         {
-            return BrotliHelper32.EncoderVersion();
+            return _funcEncoderVersion();
         }
     }
 
     internal class BrotliHelperRef64
     {
+        #region delegates
+        delegate IntPtr DelegateDecoderCreateInstance(IntPtr allocFunc, IntPtr freeFunc, IntPtr opaque);
+        delegate int DelegateDecoderDecompressStream(IntPtr state, ref ulong availableIn, ref IntPtr nextIn, ref ulong availableOut, ref IntPtr nextOut, out ulong totalOut);
+        delegate void DelegateDecoderDestroyInstance(IntPtr state);
+        delegate IntPtr DelegateDecoderErrorString(int code);
+        delegate int DelegateDecoderGetErrorCode(IntPtr state);
+        delegate bool DelegateDecoderIsFinished(IntPtr state);
+        delegate bool DelegateDecoderIsUsed(IntPtr state);
+        delegate void DelegateDecoderSetCustomDictionary(IntPtr state, uint size, IntPtr dict);
+        delegate uint DelegateDecoderVersion();
+
+        delegate bool DelegateEncoderCompressStream(IntPtr state, int op, ref ulong availableIn, ref IntPtr nextIn, ref ulong availableOut, ref IntPtr nextOut, out ulong totalOut);
+        delegate IntPtr DelegateEncoderCreateInstance(IntPtr allocFunc, IntPtr freeFunc, IntPtr opaque);
+        delegate void DelegateEncoderDestroyInstance(IntPtr state);
+        delegate bool DelegateEncoderIsFinished(IntPtr state);
+        delegate void DelegateEncoderSetCustomDictionary(IntPtr state, uint size, IntPtr dict);
+        delegate bool DelegateEncoderSetParameter(IntPtr state, int parameter, uint value);
+        delegate uint DelegateEncoderVersion();
+
+        static DelegateDecoderCreateInstance _funcDecoderCreateInstance;
+        static DelegateDecoderDecompressStream _funcDecoderDecompressStream;
+        static DelegateDecoderDestroyInstance _funcDecoderDestroyInstance;
+        static DelegateDecoderErrorString _funcDecoderErrorString;
+        static DelegateDecoderGetErrorCode _funcDecoderGetErrorCode;
+        static DelegateDecoderIsFinished _funcDecoderIsFinished;
+        static DelegateDecoderIsUsed _funcDecoderIsUsed;
+        static DelegateDecoderSetCustomDictionary _funcDecoderSetCustomerDictionary;
+        static DelegateDecoderVersion _funcDecoderVersion;
+
+        static DelegateEncoderCompressStream _funcEncoderCompressStream;
+        static DelegateEncoderCreateInstance _funcEncoderCreateInstance;
+        static DelegateEncoderDestroyInstance _funcEncoderDestroyInstance;
+        static DelegateEncoderIsFinished _funcEncoderIsFinished;
+        static DelegateEncoderSetCustomDictionary _funcEncoderSetCustomerDictionary;
+        static DelegateEncoderSetParameter _funcEncoderSetParameter;
+        static DelegateEncoderVersion _funcEncoderVersion;
+
+        static T CreateDelegate<T>(Type target, String methodName)
+        {
+            Type t = typeof(T);
+            Object od = Delegate.CreateDelegate(t, target, methodName);
+            return (T)od;
+        }
+        static BrotliHelperRef64()
+        {
+
+            var useNetFx2 = Environment.Version.Major < 4;
+            var dirPath = typeof(BrotliStream).Assembly.Location;
+            dirPath = dirPath.Substring(0, dirPath.LastIndexOfAny(new Char[] { '\\', '/' }));
+            var destAssemblyName = String.Format("{0}\\{1}", dirPath, useNetFx2 ? "broclr2_64.dll" : "broclr4_64.dll");
+            var destAssembly = Assembly.LoadFrom(destAssemblyName);
+            var destType = destAssembly.GetType("Brotli.BrotliHelper64");
+            _funcDecoderCreateInstance = CreateDelegate<DelegateDecoderCreateInstance>(destType, "DecoderCreateInstance");
+            _funcDecoderDecompressStream = CreateDelegate<DelegateDecoderDecompressStream>(destType, "DecoderDecompressStream");
+            _funcDecoderDestroyInstance = CreateDelegate<DelegateDecoderDestroyInstance>(destType, "DecoderDestroyInstance");
+            _funcDecoderErrorString = CreateDelegate<DelegateDecoderErrorString>(destType, "DecoderErrorString");
+            _funcDecoderGetErrorCode = CreateDelegate<DelegateDecoderGetErrorCode>(destType, "DecoderGetErrorCode");
+            _funcDecoderIsFinished = CreateDelegate<DelegateDecoderIsFinished>(destType, "DecoderIsFinished");
+            _funcDecoderIsUsed = CreateDelegate<DelegateDecoderIsUsed>(destType, "DecoderIsUsed");
+            _funcDecoderSetCustomerDictionary = CreateDelegate<DelegateDecoderSetCustomDictionary>(destType, "DecoderSetCustomerDictionary");
+            _funcDecoderVersion = CreateDelegate<DelegateDecoderVersion>(destType, "DecoderVersion");
+
+            _funcEncoderCompressStream = CreateDelegate<DelegateEncoderCompressStream>(destType, "EncoderCompressStream");
+            _funcEncoderCreateInstance = CreateDelegate<DelegateEncoderCreateInstance>(destType, "EncoderCreateInstance");
+            _funcEncoderDestroyInstance = CreateDelegate<DelegateEncoderDestroyInstance>(destType, "EncoderDestroyInstance");
+            _funcEncoderIsFinished = CreateDelegate<DelegateEncoderIsFinished>(destType, "EncoderIsFinished");
+            _funcEncoderSetCustomerDictionary = CreateDelegate<DelegateEncoderSetCustomDictionary>(destType, "EncoderSetCustomDictionary");
+            _funcEncoderSetParameter = CreateDelegate<DelegateEncoderSetParameter>(destType, "EncoderSetParameter");
+            _funcEncoderVersion = CreateDelegate<DelegateEncoderVersion>(destType, "EncoderVersion");
+        }
+        #endregion
+
         public static IntPtr DecoderCreateInstance(IntPtr allocFunc, IntPtr freeFunc, IntPtr opaque)
         {
-            return BrotliHelper64.DecoderCreateInstance(allocFunc, freeFunc, opaque);
+            return _funcDecoderCreateInstance(allocFunc, freeFunc, opaque);
         }
         public static int DecoderDecompressStream(IntPtr state, ref ulong availableIn, ref IntPtr nextIn, ref ulong availableOut, ref IntPtr nextOut, out ulong totalOut)
         {
-            return BrotliHelper64.DecoderDecompressStream(state, ref availableIn, ref nextIn, ref availableOut, ref nextOut, out totalOut);
+            return _funcDecoderDecompressStream(state, ref availableIn, ref nextIn, ref availableOut, ref nextOut, out totalOut);
         }
         public static void DecoderDestroyInstance(IntPtr state)
         {
-            BrotliHelper64.DecoderDestroyInstance(state);
+            _funcDecoderDestroyInstance(state);
         }
         public static IntPtr DecoderErrorString(int code)
         {
-            return BrotliHelper64.DecoderErrorString(code);
+            return _funcDecoderErrorString(code);
         }
 
         public static int DecoderGetErrorCode(IntPtr state)
         {
-            return BrotliHelper64.DecoderGetErrorCode(state);
+            return _funcDecoderGetErrorCode(state);
         }
 
         public static bool DecoderIsFinished(IntPtr state)
         {
-            return BrotliHelper64.DecoderIsFinished(state);
+            return _funcDecoderIsFinished(state);
         }
         public static bool DecoderIsUsed(IntPtr state)
         {
-            return BrotliHelper64.DecoderIsUsed(state);
+            return _funcDecoderIsUsed(state);
         }
         public static void DecoderSetCustomDictionary(IntPtr state, uint size, IntPtr dict)
         {
-            BrotliHelper64.DecoderSetCustomDictionary(state, size, dict);
+            _funcDecoderSetCustomerDictionary(state, size, dict);
         }
         public static uint DecoderVersion()
         {
-            return BrotliHelper64.DecoderVersion();
+            return _funcDecoderVersion();
         }
         public static bool EncoderCompressStream(IntPtr state, int op, ref ulong availableIn, ref IntPtr nextIn, ref ulong availableOut, ref IntPtr nextOut, out ulong totalOut)
         {
-            return BrotliHelper64.EncoderCompressStream(state, op, ref availableIn, ref nextIn, ref availableOut, ref nextOut, out totalOut);
+            return _funcEncoderCompressStream(state, op, ref availableIn, ref nextIn, ref availableOut, ref nextOut, out totalOut);
         }
 
         public static IntPtr EncoderCreateInstance(IntPtr allocFunc, IntPtr freeFunc, IntPtr opaque)
         {
-            return BrotliHelper64.EncoderCreateInstance(allocFunc, freeFunc, opaque);
+            return _funcEncoderCreateInstance(allocFunc, freeFunc, opaque);
         }
         public static void EncoderDestroyInstance(IntPtr state)
         {
-            BrotliHelper64.EncoderDestroyInstance(state);
+            _funcEncoderDestroyInstance(state);
         }
         public static bool EncoderIsFinished(IntPtr state)
         {
-            return BrotliHelper64.EncoderIsFinished(state);
+            return _funcEncoderIsFinished(state);
         }
         public static void EncoderSetCustomDictionary(IntPtr state, uint size, IntPtr dict)
         {
-            BrotliHelper64.EncoderSetCustomDictionary(state, size, dict);
+            _funcEncoderSetCustomerDictionary(state, size, dict);
         }
         public static bool EncoderSetParameter(IntPtr state, int parameter, uint value)
         {
-            return BrotliHelper64.EncoderSetParameter(state, parameter, value);
+            return _funcEncoderSetParameter(state, parameter, value);
         }
         public static uint EncoderVersion()
         {
-            return BrotliHelper64.EncoderVersion();
+            return _funcEncoderVersion();
         }
     }
     #endregion
