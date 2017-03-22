@@ -28,8 +28,16 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="broclr2_32">
+      <HintPath>..\build\broclr2_32.dll</HintPath>
+    </Reference>
+    <Reference Include="broclr2_64">
+      <HintPath>..\build\broclr2_64.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />

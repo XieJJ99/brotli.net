@@ -11,11 +11,13 @@ namespace TestBrotli
         public void TestErrorDetection()
         {
             Boolean errorDetected = false;
+            var errorCode = 0;
             using (System.IO.MemoryStream msInvalid = new System.IO.MemoryStream())
             {
                 var rawBytes = new Byte[] { 0x1, 0x2, 0x3, 0x4 };
                 msInvalid.Write(rawBytes, 0, rawBytes.Length);
                 msInvalid.Seek(0, System.IO.SeekOrigin.Begin);
+
                 using (BrotliStream bs = new BrotliStream(msInvalid, System.IO.Compression.CompressionMode.Decompress))
                 using (System.IO.MemoryStream msOut = new System.IO.MemoryStream())
                 {
@@ -29,9 +31,10 @@ namespace TestBrotli
                             if (cnt <= 0) break;
                             msOut.Write(buffer, 0, cnt);
                         }
-                        catch (BrotliException)
+                        catch (BrotliDecodeException bde )
                         {
                             errorDetected = true;
+                            errorCode = bde.Code;
                             break;
                         }
                     }
@@ -39,6 +42,7 @@ namespace TestBrotli
                 }
             }
             Assert.IsTrue(errorDetected);
+            Assert.AreEqual(2, errorCode);
         }
 
 

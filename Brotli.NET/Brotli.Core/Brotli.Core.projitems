@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enum\BrotliDecoderResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enum\BrotliEncoderOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enum\BrotliEncoderParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exception\BrotliDecodeException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exception\BrotliException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Implement\Brolib.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Implement\BrotliStream.cs" />

@@ -268,7 +268,7 @@ namespace Brotli
                 {
                     var error = Brolib.BrotliDecoderGetErrorCode(_state);
                     var text = Brolib.BrotliDecoderErrorString(error);
-                    throw new BrotliException(String.Format("Unable to decode stream,possibly corrupt data.Code={0}({1})",error,text));
+                    throw new BrotliDecodeException(String.Format("Unable to decode stream,possibly corrupt data.Code={0}({1})",error,text),error,text);
                 }
 
                 if (endOfStream && !Brolib.BrotliDecoderIsFinished(_state) && _lastDecodeResult == BrotliDecoderResult.NeedsMoreInput)

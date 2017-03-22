@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Brotli.NET</id>
-    <version>1.0.12.0</version>
+    <version>1.0.14.0</version>
     <title>Brotli.NET</title>
     <authors>Jinjun Xie</authors>
     <owners>Jinjun Xie</owners>
@@ -36,12 +36,18 @@
     <tags>Brotli Compress Decompress .NET IIS Stream</tags>
   </metadata>
   	<files>
-			<file src="lib\net20\Brotli.NET.pdb" target="lib/net20" />
-			<file src="lib\net20\Brotli.NET.dll" target="lib/net20" />
-			<file src="lib\net40\Brotli.NET.pdb" target="lib/net40" />
-			<file src="lib\net40\Brotli.NET.dll" target="lib/net40" />
-			<file src="build\**" target="build" />
+			<file src="build\broclr2_32.dll" target="lib\net20" />
+			<file src="build\broclr2_64.dll" target="lib\net20" />
+			<file src="lib\net20\Brotli.NET.pdb" target="lib\net20" />
+			<file src="lib\net20\Brotli.NET.dll" target="lib\net20" />
+			<file src="build\broclr4_32.dll" target="lib\net40" />
+			<file src="build\broclr4_64.dll" target="lib\net40" />
+			<file src="build\broclr4_32.pdb" target="lib\net40" />
+			<file src="build\broclr4_64.pdb" target="lib\net40" />
+			<file src="lib\net40\Brotli.NET.pdb" target="lib\net40" />
+			<file src="lib\net40\Brotli.NET.dll" target="lib\net40" />
 			<!--
+			<file src="build\**" target="build" />
 			<file src="build\**" target="build" />
 			-->
 		</files>		  

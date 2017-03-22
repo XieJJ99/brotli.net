@@ -35,6 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="broclr4_32, Version=1.0.6288.29569, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\build\broclr4_32.dll</HintPath>
+    </Reference>
+    <Reference Include="broclr4_64, Version=1.0.6288.28856, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\build\broclr4_64.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -59,12 +67,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Brotli.NET4\Brotli.NET4.csproj">
-      <Project>{2ae0d83f-bbf7-4a97-9168-94cd26d0cb9f}</Project>
-      <Name>Brotli.NET4</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="TestResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>TestResource.Designer.cs</LastGenOutput>
@@ -73,6 +75,12 @@
   <ItemGroup>
     <None Include="Resource\BingCN.html" />
     <None Include="Resource\BingCN_Compressed.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Brotli.NET4\Brotli.NET4.csproj">
+      <Project>{2ae0d83f-bbf7-4a97-9168-94cd26d0cb9f}</Project>
+      <Name>Brotli.NET4</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
@@ -99,8 +107,8 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy /Y $(SolutionDir)Brotli.NET\build\brolib32* $(TargetDir) 
-copy /Y $(SolutionDir)Brotli.NET\build\brolib64* $(TargetDir)</PostBuildEvent>
+    <PostBuildEvent>REM copy /Y $(SolutionDir)Brotli.NET\build\brolib32* $(TargetDir) 
+REM copy /Y $(SolutionDir)Brotli.NET\build\brolib64* $(TargetDir)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

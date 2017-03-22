@@ -1,6 +1,6 @@
 ﻿namespace Brotli
 {
-    public enum BrotliDecoderResult
+    public enum BrotliDecoderResult:int
     {
         /// <summary>
         /// Decoding error, e.g. corrupt input or memory allocation problem
