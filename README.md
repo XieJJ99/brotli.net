@@ -68,4 +68,4 @@ To support dynamic compress in web applications,add the code like this in the Gl
            }      	
 
 
-From version v1.0.14, Brotli.NET migrated to C++/CLR, all related assemblies can be updated/removed when inside a web application. 
+From version v1.0.15, Brotli.NET migrated to C++/CLR, all related assemblies can be updated/removed when inside a web application. 
