@@ -1,54 +1,47 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Brotli
 {
-
-
-    #region Helper Wrapper
     public class Brolib
     {
         static bool UseX86 = IntPtr.Size == 4;
         #region Encoder
-
-        static Brolib()
-        {
-            InitLibrary();
-        }
-
-        public static void InitLibrary()
-        {
-            if (UseX86)
-            {
-                BrotliLibWrapper32.InitLibrary();
-            }
-            else
-            {
-                BrotliLibWrapper64.InitLibrary();
-            }
-        }
-
-        public static void ReleaseLibrary()
-        {
-            if (UseX86)
-            {
-                BrotliLibWrapper32.ReleaseLibrary();
-            }
-            else
-            {
-                BrotliLibWrapper64.ReleaseLibrary();
-            }
-        }
-
         public static IntPtr BrotliEncoderCreateInstance()
         {
             if (UseX86)
             {
-                return BrotliLibWrapper32.EncoderCreateInstance(IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+                return Brolib32.BrotliEncoderCreateInstance(IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
             }
             else
             {
-                return BrotliLibWrapper64.EncoderCreateInstance(IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+                return Brolib64.BrotliEncoderCreateInstance(IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+            }
+        }
+
+
+        public static IntPtr GetModuleHandle(String moduleName)
+        {
+            IntPtr r = IntPtr.Zero;
+            foreach (ProcessModule mod in Process.GetCurrentProcess().Modules)
+            {
+                if (String.Compare(mod.ModuleName,moduleName,true)==0)
+                {
+                    r = mod.BaseAddress;
+                    break;
+                }
+            }
+            return r;
+        }
+
+        public static void FreeLibrary()
+        {
+            IntPtr libHandle = IntPtr.Zero;
+            libHandle = GetModuleHandle(UseX86 ? Brolib32.LibName : Brolib64.LibName);
+            if (libHandle!=IntPtr.Zero)
+            {
+                NativeMethods.FreeLibrary(libHandle);
             }
         }
 
@@ -56,11 +49,11 @@ namespace Brotli
         {
             if (UseX86)
             {
-                return BrotliLibWrapper32.EncoderSetParameter(state, (int)parameter, value);
+                return Brolib32.BrotliEncoderSetParameter(state, parameter, value);
             }
             else
             {
-                return BrotliLibWrapper64.EncoderSetParameter(state, (int)parameter, value);
+                return Brolib64.BrotliEncoderSetParameter(state, parameter, value);
             }
         }
 
@@ -68,11 +61,11 @@ namespace Brotli
         {
             if (UseX86)
             {
-                BrotliLibWrapper32.EncoderSetCustomDictionary(state, size, dict);
+                Brolib32.BrotliEncoderSetCustomDictionary(state, size, dict);
             }
             else
             {
-                BrotliLibWrapper64.EncoderSetCustomDictionary(state, size, dict);
+                Brolib64.BrotliEncoderSetCustomDictionary(state, size, dict);
             }
         }
 
@@ -82,14 +75,14 @@ namespace Brotli
         {
             if (UseX86)
             {
-                return BrotliLibWrapper32.EncoderCompressStream(state, (int)op, ref availableIn, ref nextIn, ref availableOut, ref nextOut, out totalOut);
+                return Brolib32.BrotliEncoderCompressStream(state, op, ref availableIn, ref nextIn, ref availableOut, ref nextOut, out totalOut);
             }
             else
             {
                 UInt64 availableInL = availableIn;
                 UInt64 availableOutL = availableOut;
                 UInt64 totalOutL = 0;
-                var r = BrotliLibWrapper64.EncoderCompressStream(state, (int)op, ref availableInL, ref nextIn, ref availableOutL, ref nextOut, out totalOutL);
+                var r = Brolib64.BrotliEncoderCompressStream(state, op, ref availableInL, ref nextIn, ref availableOutL, ref nextOut, out totalOutL);
                 availableIn = (UInt32)availableInL;
                 availableOut = (UInt32)availableOutL;
                 totalOut = (UInt32)totalOutL;
@@ -101,11 +94,11 @@ namespace Brotli
         {
             if (UseX86)
             {
-                return BrotliLibWrapper32.EncoderIsFinished(state);
+                return Brolib32.BrotliEncoderIsFinished(state);
             }
             else
             {
-                return BrotliLibWrapper64.EncoderIsFinished(state);
+                return Brolib64.BrotliEncoderIsFinished(state);
             }
         }
 
@@ -113,11 +106,11 @@ namespace Brotli
         {
             if (UseX86)
             {
-                BrotliLibWrapper32.EncoderDestroyInstance(state);
+                Brolib32.BrotliEncoderDestroyInstance(state);
             }
             else
             {
-                BrotliLibWrapper64.EncoderDestroyInstance(state);
+                Brolib64.BrotliEncoderDestroyInstance(state);
             }
         }
 
@@ -125,11 +118,11 @@ namespace Brotli
         {
             if (UseX86)
             {
-                return BrotliLibWrapper32.EncoderVersion();
+                return Brolib32.BrotliEncoderVersion();
             }
             else
             {
-                return BrotliLibWrapper64.EncoderVersion();
+                return Brolib64.BrotliEncoderVersion();
             }
         }
 
@@ -140,11 +133,11 @@ namespace Brotli
         {
             if (UseX86)
             {
-                return BrotliLibWrapper32.DecoderCreateInstance(IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+                return Brolib32.BrotliDecoderCreateInstance(IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
             }
             else
             {
-                return BrotliLibWrapper64.DecoderCreateInstance(IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+                return Brolib64.BrotliDecoderCreateInstance(IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
             }
         }
 
@@ -152,11 +145,11 @@ namespace Brotli
         {
             if (UseX86)
             {
-                BrotliLibWrapper32.DecoderSetCustomDictionary(state, size, dict);
+                Brolib32.BrotliDecoderSetCustomDictionary(state, size, dict);
             }
             else
             {
-                BrotliLibWrapper64.DecoderSetCustomDictionary(state, size, dict);
+                Brolib64.BrotliDecoderSetCustomDictionary(state, size, dict);
             }
         }
 
@@ -166,18 +159,18 @@ namespace Brotli
         {
             if (UseX86)
             {
-                return (BrotliDecoderResult)BrotliLibWrapper32.DecoderDecompressStream(state, ref availableIn, ref nextIn, ref availableOut, ref nextOut, out totalOut);
+                return Brolib32.BrotliDecoderDecompressStream(state, ref availableIn, ref nextIn, ref availableOut, ref nextOut, out totalOut);
             }
             else
             {
                 UInt64 availableInL = availableIn;
                 UInt64 availableOutL = availableOut;
                 UInt64 totalOutL = 0;
-                var r = BrotliLibWrapper64.DecoderDecompressStream(state, ref availableInL, ref nextIn, ref availableOutL, ref nextOut, out totalOutL);
+                var r = Brolib64.BrotliDecoderDecompressStream(state, ref availableInL, ref nextIn, ref availableOutL, ref nextOut, out totalOutL);
                 availableIn = (UInt32)availableInL;
                 availableOut = (UInt32)availableOutL;
                 totalOut = (UInt32)totalOutL;
-                return (BrotliDecoderResult)r;
+                return r;
             }
         }
 
@@ -185,11 +178,11 @@ namespace Brotli
         {
             if (UseX86)
             {
-                BrotliLibWrapper32.DecoderDestroyInstance(state);
+                Brolib32.BrotliDecoderDestroyInstance(state);
             }
             else
             {
-                BrotliLibWrapper64.DecoderDestroyInstance(state);
+                Brolib64.BrotliDecoderDestroyInstance(state);
             }
         }
 
@@ -197,11 +190,11 @@ namespace Brotli
         {
             if (UseX86)
             {
-                return BrotliLibWrapper32.DecoderVersion();
+                return Brolib32.BrotliDecoderVersion();
             }
             else
             {
-                return BrotliLibWrapper64.DecoderVersion();
+                return Brolib64.BrotliDecoderVersion();
             }
         }
 
@@ -209,22 +202,22 @@ namespace Brotli
         {
             if (UseX86)
             {
-                return BrotliLibWrapper32.DecoderIsUsed(state);
+                return Brolib32.BrotliDecoderIsUsed(state);
             }
             else
             {
-                return BrotliLibWrapper64.DecoderIsUsed(state);
+                return Brolib64.BrotliDecoderIsUsed(state);
             }
         }
         public static bool BrotliDecoderIsFinished(IntPtr state)
         {
             if (UseX86)
             {
-                return BrotliLibWrapper32.DecoderIsFinished(state);
+                return Brolib32.BrotliDecoderIsFinished(state);
             }
             else
             {
-                return BrotliLibWrapper64.DecoderIsFinished(state);
+                return Brolib64.BrotliDecoderIsFinished(state);
             }
 
         }
@@ -232,11 +225,11 @@ namespace Brotli
         {
             if (UseX86)
             {
-                return BrotliLibWrapper32.DecoderGetErrorCode(state);
+                return Brolib32.BrotliDecoderGetErrorCode(state);
             }
             else
             {
-                return BrotliLibWrapper64.DecoderGetErrorCode(state);
+                return Brolib64.BrotliDecoderGetErrorCode(state);
             }
         }
 
@@ -245,11 +238,11 @@ namespace Brotli
             IntPtr r = IntPtr.Zero;
             if (UseX86)
             {
-                r = BrotliLibWrapper32.DecoderErrorString(code);
+                r = Brolib32.BrotliDecoderErrorString(code);
             }
             else
             {
-                r = BrotliLibWrapper64.DecoderErrorString(code);
+                r = Brolib64.BrotliDecoderErrorString(code);
             }
 
             if (r != IntPtr.Zero)
@@ -264,5 +257,4 @@ namespace Brotli
 
         #endregion
     }
-    #endregion
 }
