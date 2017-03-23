@@ -99,13 +99,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>REM copy /Y $(SolutionDir)Brotli.NET\build\brolib32* $(TargetDir) 
-REM copy /Y $(SolutionDir)Brotli.NET\build\brolib64* $(TargetDir)
-copy /Y $(SolutionDir)build\broclr2_32.dll $(TargetDir)
-copy /Y $(SolutionDir)build\broclr2_64.dll $(TargetDir)
-copy /Y $(SolutionDir)build\broclr4_32.dll $(TargetDir)
-copy /Y $(SolutionDir)build\broclr4_64.dll $(TargetDir)
-</PostBuildEvent>
+    <PostBuildEvent>xcopy /Y /S $(SolutionDir)build $(TargetDir)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

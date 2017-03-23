@@ -18,5 +18,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Implement\BrotliStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interop\Brolib32.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interop\Brolib64.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interop\BrotliLibWrapperBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interop\BrotliLibWrapper32.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interop\BrotliLibWrapper64.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interop\NativeMethods.cs" />
   </ItemGroup>
 </Project>
