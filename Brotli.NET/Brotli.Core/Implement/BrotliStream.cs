@@ -211,9 +211,22 @@ namespace Brotli
 
         public void TruncateBeginning(MemoryStream ms, int numberOfBytesToRemove)
         {
+#if NETCORE
+            ArraySegment<byte> buf;
+            if(ms.TryGetBuffer(out buf))
+            {
+                Buffer.BlockCopy(buf.Array, numberOfBytesToRemove, buf.Array, 0, (int)ms.Length - numberOfBytesToRemove);
+                ms.SetLength(ms.Length - numberOfBytesToRemove);
+            }
+            else
+            {
+                throw new UnauthorizedAccessException();
+            }
+#else
             byte[] buf = ms.GetBuffer();
             Buffer.BlockCopy(buf, numberOfBytesToRemove, buf, 0, (int)ms.Length - numberOfBytesToRemove);
             ms.SetLength(ms.Length - numberOfBytesToRemove);
+#endif
         }
 
         public override int Read(byte[] buffer, int offset, int count)
