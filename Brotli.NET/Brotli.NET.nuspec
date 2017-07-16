@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Brotli.NET</id>
-    <version>1.0.18.0</version>
+    <version>1.0.19.0</version>
     <title>Brotli.NET</title>
     <authors>Jinjun Xie</authors>
     <owners>Jinjun Xie</owners>
@@ -31,7 +31,7 @@
                 }
            }      	]]>
     </summary>
-    <releaseNotes>Support .NET 2.0,.NET 4.0,.NET Core 1.1 and above(x86/x64 only).</releaseNotes>
+    <releaseNotes>Support .NET 2.0 and NET 4.0</releaseNotes>
     <copyright>Copyright Jinjun Xie 2016</copyright>
     <tags>Brotli Compress Decompress .NET IIS Stream</tags>
   </metadata>
