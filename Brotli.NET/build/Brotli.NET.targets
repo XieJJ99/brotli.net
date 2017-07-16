@@ -7,7 +7,7 @@
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="@(NativePdbs)">
+    <None Include="@(NativePdbs)" Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(AllowedReferenceRelatedFileExtensions)', '\.pdb'))">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
