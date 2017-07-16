@@ -126,6 +126,23 @@ namespace Brotli
             }
         }
 
+        
+        public static IntPtr BrotliDecoderTakeOutput(IntPtr state, ref UInt32 size)
+        {
+            if (UseX86)
+            {
+                return Brolib32.BrotliDecoderTakeOutput(state, ref size);
+            }
+            else
+            {
+                UInt64 longSize = size;
+                var r = Brolib64.BrotliDecoderTakeOutput(state, ref longSize);
+                size = (UInt32)longSize;
+                return r;
+            }
+        }
+
+
 
         #endregion
         #region Decoder
@@ -252,6 +269,21 @@ namespace Brotli
             return String.Empty;
 
 
+        }
+
+        public static IntPtr BrotliEncoderTakeOutput(IntPtr state, ref UInt32 size)
+        {
+            if (UseX86)
+            {
+                return Brolib32.BrotliEncoderTakeOutput(state, ref size);
+            }
+            else
+            {
+                UInt64 longSize = size;
+                var r = Brolib64.BrotliEncoderTakeOutput(state, ref longSize);
+                size = (UInt32)longSize;
+                return r;
+            }
         }
 
 

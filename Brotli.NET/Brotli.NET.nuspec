@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Brotli.NET</id>
-    <version>1.0.17.0</version>
+    <version>1.0.18.0</version>
     <title>Brotli.NET</title>
     <authors>Jinjun Xie</authors>
     <owners>Jinjun Xie</owners>
@@ -31,11 +31,14 @@
                 }
            }      	]]>
     </summary>
-    <releaseNotes>Support .NET 2.0/4.0 and above(x86/x64 only).</releaseNotes>
+    <releaseNotes>Support .NET 2.0,.NET 4.0,.NET Core 1.1 and above(x86/x64 only).</releaseNotes>
     <copyright>Copyright Jinjun Xie 2016</copyright>
     <tags>Brotli Compress Decompress .NET IIS Stream</tags>
   </metadata>
   	<files>
+		<!--
+			<file src="lib\netCore11\Brotli.NET.pdb" target="lib\netCore11" />
+			<file src="lib\netCore11\Brotli.NET.dll" target="lib\netCore11" />-->
 			<file src="lib\net20\Brotli.NET.pdb" target="lib\net20" />
 			<file src="lib\net20\Brotli.NET.dll" target="lib\net20" />
 			<file src="lib\net40\Brotli.NET.pdb" target="lib\net40" />

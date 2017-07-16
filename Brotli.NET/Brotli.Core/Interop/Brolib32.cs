@@ -28,6 +28,8 @@ namespace Brotli
         internal static extern void BrotliEncoderDestroyInstance(IntPtr state);
         [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
         internal static extern UInt32 BrotliEncoderVersion();
+        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr BrotliEncoderTakeOutput(IntPtr state,ref UInt32 size);
         #endregion
         #region Decoder
         [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
@@ -55,6 +57,10 @@ namespace Brotli
         internal static extern Int32 BrotliDecoderGetErrorCode(IntPtr state);
         [DllImport(LibName, CallingConvention = CallingConvention.Cdecl,CharSet= CharSet.Ansi)]
         internal static extern IntPtr BrotliDecoderErrorString(Int32 code);
+
+        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr BrotliDecoderTakeOutput(IntPtr state, ref UInt32 size);
+
         #endregion
     }
 }
