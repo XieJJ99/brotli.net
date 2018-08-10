@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.IO.Compression;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Brotli;
 
@@ -97,5 +99,15 @@ namespace TestBrotli
             }
 
         }
-    }
+
+	    [TestMethod]
+	    public void EmptyStream()
+	    {
+		    var memoryStream = new MemoryStream();
+		    var brotliStream = new BrotliStream(memoryStream, CompressionMode.Compress, true);
+		    brotliStream.Flush();
+			brotliStream.Dispose();
+		    Assert.AreEqual(0, memoryStream.Length);
+	    }
+	}
 }

@@ -25,6 +25,7 @@ namespace Brotli
         protected int _readOffset = 0;
         protected BrotliDecoderResult _lastDecodeResult = BrotliDecoderResult.NeedsMoreInput;
         protected Boolean _leaveOpen = false;
+        protected Boolean _written = false;
 
         public BrotliStream(Stream baseStream, CompressionMode mode,bool leaveOpen)
         {
@@ -170,8 +171,11 @@ namespace Brotli
                 if (extraData)
                 {
                     var bytesWrote = (int)(BufferSize - _availableOut);
-                    Marshal.Copy(_ptrOutputBuffer, _managedBuffer, 0, bytesWrote);
-                    _stream.Write(_managedBuffer, 0, bytesWrote);
+                    if (_written)
+                    {
+                        Marshal.Copy(_ptrOutputBuffer, _managedBuffer, 0, bytesWrote);
+                        _stream.Write(_managedBuffer, 0, bytesWrote);
+                    }
                     _availableOut = BufferSize;
                     _ptrNextOutput = _ptrOutputBuffer;
                 }
@@ -329,6 +333,8 @@ namespace Brotli
         public override void Write(byte[] buffer, int offset, int count)
         {
             if (_mode != CompressionMode.Compress) throw new BrotliException("Can't write on this stream");
+
+            _written = true;
             totalWrote += count;
             //Console.WriteLine(String.Format("Write {0} bytes,total={1} bytes.", count, totalWrote));
 
