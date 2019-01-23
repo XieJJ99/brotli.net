@@ -69,9 +69,9 @@
     <None Include="Resource\BingCN_Compressed.bin" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Brotli.NET4\Brotli.NET4.csproj">
-      <Project>{2ae0d83f-bbf7-4a97-9168-94cd26d0cb9f}</Project>
-      <Name>Brotli.NET4</Name>
+    <ProjectReference Include="..\Brotli.NET\Brotli.NET.csproj">
+      <Project>{2dba33a6-50e4-4baf-b44a-9250979f4a2c}</Project>
+      <Name>Brotli.NET</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
