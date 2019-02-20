@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>2.0.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Brotli.NET</PackageId>
+    <Authors>Jinjun Xie</Authors>
+    <Company>Jinjun Xie</Company>
+    <Copyright>Copyright Jinjun Xie 2016</Copyright>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/XieJJ99/brotli.net</PackageProjectUrl>
+    <PackageTags>Brotli Compress Decompress .NET Standard Stream</PackageTags>
+    <PackageReleaseNotes>Support .NET Standard 2(Windows and Linux64)</PackageReleaseNotes>
+    <Description>Brotli support on dotnet standard2, supporting on windows and linux(x64), provide similar interface to Google offical API.
+The library use the native runtime and its performance should be better than System.IO.Compress.BrotliStream.
+To support dynamic compress in web applications,add the code like this in the Global.asax.cs:
+        protected void Application_PostAcquireRequestState(object sender, EventArgs e)
+        {
+                           var app = Context.ApplicationInstance;
+                String acceptEncodings = app.Request.Headers.Get("Accept-Encoding");
+
+                if (!String.IsNullOrEmpty(acceptEncodings))
+                {
+                    System.IO.Stream baseStream = app.Response.Filter;
+                    acceptEncodings = acceptEncodings.ToLower();
+
+                    if (acceptEncodings.Contains("br") || acceptEncodings.Contains("brotli"))
+                    {
+                        app.Response.Filter = new BrotliStream(baseStream, System.IO.Compression.CompressionMode.Compress);
+                        app.Response.AppendHeader("Content-Encoding", "br");
+                    }
+                    //other encodings
+                }
+           }</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="runtimes\**" Pack="true" PackagePath="." />
+  </ItemGroup>
+</Project>

@@ -37,11 +37,12 @@ namespace Brotli
 
         public static void FreeLibrary()
         {
+           
             IntPtr libHandle = IntPtr.Zero;
-            libHandle = GetModuleHandle(UseX86 ? Brolib32.LibName : Brolib64.LibName);
+            libHandle = GetModuleHandle(LibPathBootStrapper.LibPath);
             if (libHandle!=IntPtr.Zero)
             {
-                NativeMethods.FreeLibrary(libHandle);
+                NativeLibraryLoader.FreeLibrary(libHandle);
             }
         }
 
@@ -57,17 +58,22 @@ namespace Brotli
             }
         }
 
-        public static void BrotliEncoderSetCustomDictionary(IntPtr state, UInt32 size, IntPtr dict)
-        {
-            if (UseX86)
-            {
-                Brolib32.BrotliEncoderSetCustomDictionary(state, size, dict);
-            }
-            else
-            {
-                Brolib64.BrotliEncoderSetCustomDictionary(state, size, dict);
-            }
-        }
+        //@to rewrite using the following APIs
+        //BrotliGetDictionary
+        //BrotliGetTransforms
+        //BrotliSetDictionaryData
+        //BrotliTransformDictionaryWord
+        //public static void BrotliEncoderSetCustomDictionary(IntPtr state, UInt32 size, IntPtr dict)
+        //{
+        //    if (UseX86)
+        //    {
+        //        Brolib32.BrotliEncoderSetCustomDictionary(state, size, dict);
+        //    }
+        //    else
+        //    {
+        //        Brolib64.BrotliEncoderSetCustomDictionary(state, size, dict);
+        //    }
+        //}
 
         public static bool BrotliEncoderCompressStream(
             IntPtr state, BrotliEncoderOperation op, ref UInt32 availableIn,
@@ -158,17 +164,35 @@ namespace Brotli
             }
         }
 
-        public static void BrotliDecoderSetCustomDictionary(IntPtr state, UInt32 size, IntPtr dict)
+        public static bool BrotliDecoderSetParameter(IntPtr state, BrotliDecoderParameter param, UInt32 value)
         {
             if (UseX86)
             {
-                Brolib32.BrotliDecoderSetCustomDictionary(state, size, dict);
+                return Brolib32.BrotliDecoderSetParameter(state,param,value);
             }
             else
             {
-                Brolib64.BrotliDecoderSetCustomDictionary(state, size, dict);
+                return Brolib64.BrotliDecoderSetParameter(state, param, value);
             }
         }
+
+
+        //@to rewrite using the following APIs
+        //BrotliGetDictionary
+        //BrotliGetTransforms
+        //BrotliSetDictionaryData
+        //BrotliTransformDictionaryWord
+        //public static void BrotliDecoderSetCustomDictionary(IntPtr state, UInt32 size, IntPtr dict)
+        //{
+        //    if (UseX86)
+        //    {
+        //        Brolib32.BrotliDecoderSetCustomDictionary(state, size, dict);
+        //    }
+        //    else
+        //    {
+        //        Brolib64.BrotliDecoderSetCustomDictionary(state, size, dict);
+        //    }
+        //}
 
         public static BrotliDecoderResult BrotliDecoderDecompressStream(
             IntPtr state, ref UInt32 availableIn,

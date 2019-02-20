@@ -49,10 +49,16 @@ namespace Brotli
                 {
                     throw new BrotliException("Unable to create brotli decoder instance");
                 }
+                //follow the brotli default standard
+                var succ = Brolib.BrotliDecoderSetParameter(_state, BrotliDecoderParameter.LargeWindow, 1U);
+                if (!succ)
+                {
+                    throw new BrotliException("failed to set decoder parameter to large window");
+                }
             }
             _ptrInputBuffer = Marshal.AllocHGlobal(BufferSize);
             _ptrOutputBuffer = Marshal.AllocHGlobal(BufferSize);
-            _ptrNextInput = _ptrInputBuffer;
+            _ptrNextInput = _ptrInputBuffer;            
             _ptrNextOutput = _ptrOutputBuffer;
 
             _managedBuffer = new Byte[BufferSize];
@@ -270,8 +276,7 @@ namespace Brotli
                     _lastDecodeResult = Brolib.BrotliDecoderDecompressStream(_state, ref _availableIn, ref _ptrNextInput,
                         ref _availableOut, ref _ptrNextOutput, out totalCount);
                     if (bytesRead >= count) break;
-                }
-
+                }                
                 if (endOfStream && !Brolib.BrotliDecoderIsFinished(_state))
                 {
                     errorDetected = true;
@@ -279,7 +284,7 @@ namespace Brotli
 
                 if (_lastDecodeResult == BrotliDecoderResult.Error || errorDetected)
                 {
-                    var error = Brolib.BrotliDecoderGetErrorCode(_state);
+                    var error = Brolib.BrotliDecoderGetErrorCode(_state);                    
                     var text = Brolib.BrotliDecoderErrorString(error);
                     throw new BrotliDecodeException(String.Format("Unable to decode stream,possibly corrupt data.Code={0}({1})",error,text),error,text);
                 }

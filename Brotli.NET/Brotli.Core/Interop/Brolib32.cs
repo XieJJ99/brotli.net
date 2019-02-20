@@ -5,61 +5,57 @@ namespace Brotli
 {
     class Brolib32
     {
-        internal const String LibName = "brolib32.dll";
+        static Brolib32()
+        {
+            var path = LibPathBootStrapper.LibPath;
+            NativeLibraryLoader nl = new NativeLibraryLoader(path);
+            #region set encoder
+            nl.FillDelegate(out BrotliEncoderCreateInstance);
+            nl.FillDelegate(out BrotliEncoderSetParameter);
+            nl.FillDelegate(out BrotliEncoderCompressStream);
+            nl.FillDelegate(out BrotliEncoderIsFinished);
+            nl.FillDelegate(out BrotliEncoderDestroyInstance);
+            nl.FillDelegate(out BrotliEncoderVersion);
+            nl.FillDelegate(out BrotliEncoderVersion);
+            nl.FillDelegate(out BrotliEncoderTakeOutput);
+            #endregion
+            #region set decoder
+            nl.FillDelegate(out BrotliDecoderCreateInstance);
+            nl.FillDelegate(out BrotliDecoderSetParameter);
+            nl.FillDelegate(out BrotliDecoderDecompressStream);
+            nl.FillDelegate(out BrotliDecoderDestroyInstance);
+            nl.FillDelegate(out BrotliDecoderVersion);
+            nl.FillDelegate(out BrotliDecoderIsUsed);
+            nl.FillDelegate(out BrotliDecoderIsFinished);
+            nl.FillDelegate(out BrotliDecoderGetErrorCode);
+            nl.FillDelegate(out BrotliDecoderErrorString);
+            nl.FillDelegate(out BrotliDecoderTakeOutput);
+            #endregion
+        }
         #region Encoder
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr BrotliEncoderCreateInstance(IntPtr allocFunc, IntPtr freeFunc, IntPtr opaque);
-
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern bool BrotliEncoderSetParameter(IntPtr state, BrotliEncoderParameter parameter, UInt32 value);
-
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void BrotliEncoderSetCustomDictionary(IntPtr state, UInt32 size, IntPtr dict);
-
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern bool BrotliEncoderCompressStream(
-            IntPtr state, BrotliEncoderOperation op, ref UInt32 availableIn,
-            ref IntPtr nextIn, ref UInt32 availableOut, ref IntPtr nextOut, out UInt32 totalOut);
-
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern bool BrotliEncoderIsFinished(IntPtr state);
-
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void BrotliEncoderDestroyInstance(IntPtr state);
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern UInt32 BrotliEncoderVersion();
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr BrotliEncoderTakeOutput(IntPtr state,ref UInt32 size);
+        internal static Delegate32.BrotliEncoderCreateInstanceDelegate BrotliEncoderCreateInstance;
+        internal static Delegate32.BrotliEncoderSetParameterDelegate BrotliEncoderSetParameter;
+        //internal static Delegate32.BrotliEncoderSetCustomDictionaryDelegate BrotliEncoderSetCustomDictionary;
+        internal static Delegate32.BrotliEncoderCompressStreamDelegate BrotliEncoderCompressStream;
+        internal static Delegate32.BrotliEncoderIsFinishedDelegate BrotliEncoderIsFinished;
+        internal static Delegate32.BrotliEncoderDestroyInstanceDelegate BrotliEncoderDestroyInstance;
+        internal static Delegate32.BrotliEncoderVersionDelegate BrotliEncoderVersion;
+        internal static Delegate32.BrotliEncoderTakeOutputDelegate BrotliEncoderTakeOutput;
         #endregion
         #region Decoder
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr BrotliDecoderCreateInstance(IntPtr allocFunc, IntPtr freeFunc, IntPtr opaque);
+        internal static Delegate32.BrotliDecoderCreateInstanceDelegate BrotliDecoderCreateInstance;
+        internal static Delegate32.BrotliDecoderSetParameter BrotliDecoderSetParameter;
+        //internal static Delegate32.BrotliDecoderSetCustomDictionary BrotliDecoderSetCustomDictionary;
+        internal static Delegate32.BrotliDecoderDecompressStreamDelegate BrotliDecoderDecompressStream;
 
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void BrotliDecoderSetCustomDictionary(IntPtr state, UInt32 size, IntPtr dict);
+        internal static Delegate32.BrotliDecoderDestroyInstanceDelegate BrotliDecoderDestroyInstance;
 
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern BrotliDecoderResult BrotliDecoderDecompressStream(
-            IntPtr state, ref UInt32 availableIn, ref IntPtr nextIn,
-            ref UInt32 availableOut, ref IntPtr nextOut, out UInt32 totalOut);
-
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void BrotliDecoderDestroyInstance(IntPtr state);
-
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern UInt32 BrotliDecoderVersion();
-
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern bool BrotliDecoderIsUsed(IntPtr state);
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern bool BrotliDecoderIsFinished(IntPtr state);
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern Int32 BrotliDecoderGetErrorCode(IntPtr state);
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl,CharSet= CharSet.Ansi)]
-        internal static extern IntPtr BrotliDecoderErrorString(Int32 code);
-
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr BrotliDecoderTakeOutput(IntPtr state, ref UInt32 size);
+        internal static Delegate32.BrotliDecoderVersionDelegate BrotliDecoderVersion;
+        internal static Delegate32.BrotliDecoderIsUsedDelegate BrotliDecoderIsUsed;
+        internal static Delegate32.BrotliDecoderIsFinishedDelegate BrotliDecoderIsFinished;
+        internal static Delegate32.BrotliDecoderGetErrorCodeDelegate BrotliDecoderGetErrorCode;
+        internal static Delegate32.BrotliDecoderErrorStringDelegate BrotliDecoderErrorString;
+        internal static Delegate32.BrotliDecoderTakeOutputDelegate BrotliDecoderTakeOutput;
 
         #endregion
     }

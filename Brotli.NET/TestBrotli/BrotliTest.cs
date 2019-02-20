@@ -1,16 +1,37 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Brotli;
+using System.IO;
+using System.IO.Compression;
+using BrotliStream = Brotli.BrotliStream;
 
 namespace TestBrotli
 {
-    [TestClass]
     public class BrotliTest
     {
-        [TestMethod]
+
+        public static byte[] GetBytes(string name)
+        {
+            var assembly = typeof(BrotliTest).Assembly;
+            using (var stream = assembly.GetManifestResourceStream(name))
+            {
+                if (stream == null)
+                {
+                    throw new Exception(
+                        $"Resource {name} not found in {assembly.FullName}.  Valid resources are: {string.Join(", ", assembly.GetManifestResourceNames())}.");
+                }
+                using (var ms = new MemoryStream())
+                {
+                    stream.CopyTo(ms);
+                    return ms.ToArray();
+                }
+            }
+        }
+
+        [Fact]
         public void TestErrorDetection()
         {
-            Boolean errorDetected = false;
+            Boolean errorDetected = false;            
             var errorCode = 0;
             using (System.IO.MemoryStream msInvalid = new System.IO.MemoryStream())
             {
@@ -41,8 +62,8 @@ namespace TestBrotli
                     //System.IO.File.WriteAllBytes(@"C:\Temp\MSN20160606_original.pdf", msOut.ToArray());
                 }
             }
-            Assert.IsTrue(errorDetected);
-            Assert.AreEqual(2, errorCode);
+            Assert.True(errorDetected);
+            Assert.Equal(2, errorCode);
         }
 
 
@@ -59,10 +80,32 @@ namespace TestBrotli
             return true;
         }
 
-        [TestMethod]
+        [Fact]
+        public void TestEmptyStream()
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var brotliStream = new BrotliStream(memoryStream, CompressionMode.Compress, true))
+                {
+                    brotliStream.Flush();
+                }
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                var data = memoryStream.ToArray();
+                using (var bs = new BrotliStream(memoryStream, CompressionMode.Decompress))
+                using (var msOutput = new MemoryStream())
+                {
+                    bs.CopyTo(msOutput); // goes bang
+                    msOutput.Seek(0, SeekOrigin.Begin);
+                    var output = msOutput.ToArray();
+                    Assert.True(output.Length == 0);
+                }
+            }
+        }
+
+        [Fact]
         public void TestEncode()
         {
-            var input = System.Text.Encoding.UTF8.GetBytes(TestResource.BingCN);
+            var input = GetBytes("TestBrotli.Resource.BingCN.bin");
             Byte[] output = null;
             using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(input))
             using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
@@ -73,16 +116,16 @@ namespace TestBrotli
                 msInput.CopyTo(bs);
                 bs.Close();
                 output = msOutput.ToArray();
-                Boolean eq = ArrayEqual(output, TestResource.BingCN_Compressed);
-                Assert.AreEqual(true, eq);
+                Boolean eq = ArrayEqual(output, GetBytes("TestBrotli.Resource.BingCN_Compressed.bin"));
+                Assert.True(eq);
 
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void TestDecode()
         {
-            var input = TestResource.BingCN_Compressed;
+            var input = GetBytes("TestBrotli.Resource.BingCN_Compressed.bin");
             Byte[] output = null;
             using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(input))
             using (BrotliStream bs = new BrotliStream(msInput, System.IO.Compression.CompressionMode.Decompress))
@@ -90,9 +133,8 @@ namespace TestBrotli
             {
                 bs.CopyTo(msOutput);
                 msOutput.Seek(0, System.IO.SeekOrigin.Begin);
-                output = msOutput.ToArray();
-                String text = System.Text.Encoding.UTF8.GetString(output);
-                Assert.AreEqual(text, TestResource.BingCN);
+                output = msOutput.ToArray();                
+                Assert.True(ArrayEqual(output, GetBytes("TestBrotli.Resource.BingCN.bin") ));
 
             }
 

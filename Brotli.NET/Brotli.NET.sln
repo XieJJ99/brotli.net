@@ -1,47 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brotli.NET4", "Brotli.NET4\Brotli.NET4.csproj", "{2AE0D83F-BBF7-4A97-9168-94CD26D0CB9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brotli.Core", "Brotli.Core\Brotli.Core.csproj", "{7FEB8D81-FDA4-444B-937E-DFFF43921F7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBrotli", "TestBrotli\TestBrotli.csproj", "{2B5BD60E-BF5E-4197-8DD1-B29D07EC11CD}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Brotli.Core", "Brotli.Core\Brotli.Core.shproj", "{E812A66E-F800-40F0-AE2C-9D1FCB491701}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brotli.NET2", "Brotli.NET2\Brotli.NET2.csproj", "{0CEF77F3-E7CC-4C0D-98DD-1F549C3689BE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brotli.NETCORE", "Brotli.NETCORE\Brotli.NETCORE.csproj", "{4EC0A3D3-2F78-405F-B29A-BD92C7376459}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBrotli", "TestBrotli\TestBrotli.csproj", "{1BB4F249-0ED5-49E8-97EC-4A5FF495B296}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Brotli.Core\Brotli.Core.projitems*{0cef77f3-e7cc-4c0d-98dd-1f549c3689be}*SharedItemsImports = 4
-		Brotli.Core\Brotli.Core.projitems*{2ae0d83f-bbf7-4a97-9168-94cd26d0cb9f}*SharedItemsImports = 4
-		Brotli.Core\Brotli.Core.projitems*{e812a66e-f800-40f0-ae2c-9d1fcb491701}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2AE0D83F-BBF7-4A97-9168-94CD26D0CB9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AE0D83F-BBF7-4A97-9168-94CD26D0CB9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AE0D83F-BBF7-4A97-9168-94CD26D0CB9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AE0D83F-BBF7-4A97-9168-94CD26D0CB9F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B5BD60E-BF5E-4197-8DD1-B29D07EC11CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B5BD60E-BF5E-4197-8DD1-B29D07EC11CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B5BD60E-BF5E-4197-8DD1-B29D07EC11CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B5BD60E-BF5E-4197-8DD1-B29D07EC11CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0CEF77F3-E7CC-4C0D-98DD-1F549C3689BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0CEF77F3-E7CC-4C0D-98DD-1F549C3689BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0CEF77F3-E7CC-4C0D-98DD-1F549C3689BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0CEF77F3-E7CC-4C0D-98DD-1F549C3689BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4EC0A3D3-2F78-405F-B29A-BD92C7376459}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4EC0A3D3-2F78-405F-B29A-BD92C7376459}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4EC0A3D3-2F78-405F-B29A-BD92C7376459}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4EC0A3D3-2F78-405F-B29A-BD92C7376459}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FEB8D81-FDA4-444B-937E-DFFF43921F7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FEB8D81-FDA4-444B-937E-DFFF43921F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FEB8D81-FDA4-444B-937E-DFFF43921F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FEB8D81-FDA4-444B-937E-DFFF43921F7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BB4F249-0ED5-49E8-97EC-4A5FF495B296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BB4F249-0ED5-49E8-97EC-4A5FF495B296}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BB4F249-0ED5-49E8-97EC-4A5FF495B296}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BB4F249-0ED5-49E8-97EC-4A5FF495B296}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AEB49A59-ADF0-45B7-BF15-0589D9FDA649}
 	EndGlobalSection
 EndGlobal
