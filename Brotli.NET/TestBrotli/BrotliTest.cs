@@ -9,7 +9,7 @@ namespace TestBrotli
 {
     public class BrotliTest
     {
-
+        //Use resource stream directly since .net core won't support windows.forms until v3
         public static byte[] GetBytes(string name)
         {
             var assembly = typeof(BrotliTest).Assembly;

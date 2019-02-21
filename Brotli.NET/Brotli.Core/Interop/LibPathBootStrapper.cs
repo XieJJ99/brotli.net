@@ -27,11 +27,14 @@ namespace Brotli
                 }
             } else if (NativeLibraryLoader.IsLinux)
             {
-                if (!NativeLibraryLoader.Is64Bit)
+                if (NativeLibraryLoader.Is64Bit)
                 {
-                    throw new NotSupportedException($"Linux x86 is not supported:{Environment.OSVersion.ToString()}");
+                    fileName = "brolib_x64.so";
                 }
-                fileName = "brolib_x64.so";
+                else
+                {
+                    fileName = "brolib_x86.so";
+                }
             }
             if (string.IsNullOrEmpty(fileName)) throw new NotSupportedException($"OS not supported:{Environment.OSVersion.ToString()}");
             var paths = NativeLibraryLoader.GetPossibleRuntimeDirectories();
