@@ -1,6 +1,9 @@
 # brotli.net
-The .net implement of the brotli algorithm.
-Supported on dotnet standard 2(.NET Framework [v4.6.1] and .net core [2] above), on windows and linux, provide similar interface to Google offical API.Quality and window control is supported.
+The .net implement of the brotli algorithm,provide similar interface to Google offical API.
+Quality and window control is supported.
+Supported on:
+- Dotnet standard 2(.NET Framework [v4.6.1] and .net core [2] above)-
+- Windows and Linux
 Besides quality controll,the library use the native runtime and its performance should be better than System.IO.Compress.BrotliStream.
 ## Supporting platform: .NET Standard 2(Windows/Linux)
 
