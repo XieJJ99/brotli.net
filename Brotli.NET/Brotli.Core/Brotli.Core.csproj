@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.0.0</Version>
+    <Version>2.0.2.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Brotli.NET</PackageId>
     <Authors>Jinjun Xie</Authors>
@@ -12,7 +12,7 @@
     <PackageProjectUrl>https://github.com/XieJJ99/brotli.net</PackageProjectUrl>
     <PackageTags>Brotli Compress Decompress .NET Standard Stream</PackageTags>
     <PackageReleaseNotes>Support .NET Standard 2(Windows and Linux64)</PackageReleaseNotes>
-    <Description>Supported on dotnet standard2, on windows and linux, provide similar interface to Google offical API.Quality and window control is supported.
+    <Description>Supported on dotnet standard2(Windows/Linux/OSX), provide similar interface to Google offical API.Quality and window control is supported.
 The library use the native runtime and its performance should be better than System.IO.Compress.BrotliStream.
 To support dynamic compress in web applications,add the code like this in the Global.asax.cs:
         protected void Application_PostAcquireRequestState(object sender, EventArgs e)

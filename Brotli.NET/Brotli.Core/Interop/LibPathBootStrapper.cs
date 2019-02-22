@@ -35,6 +35,12 @@ namespace Brotli
                 {
                     fileName = "brolib_x86.so";
                 }
+            } else if (NativeLibraryLoader.IsMacOSX)
+            {
+                if (NativeLibraryLoader.Is64Bit)
+                {
+                    fileName = "brolib_x64.dylib";
+                }
             }
             if (string.IsNullOrEmpty(fileName)) throw new NotSupportedException($"OS not supported:{Environment.OSVersion.ToString()}");
             var paths = NativeLibraryLoader.GetPossibleRuntimeDirectories();
