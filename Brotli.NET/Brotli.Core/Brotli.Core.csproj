@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
-    <Version>2.0.3.0</Version>
+    <Version>2.0.3.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Brotli.NET</PackageId>
     <Authors>Jinjun Xie</Authors>
@@ -35,26 +35,26 @@ To support dynamic compress in web applications,add the code like this in the Gl
                 }
            }</Description>
   </PropertyGroup>
-  <ItemGroup >
+  <ItemGroup>
     <!-- <None Update="runtimes\**" Pack="true" PackagePath="." /> -->
     <None Include="runtimes\**">
       <PackagePath>runtimes</PackagePath>
       <Pack>true</Pack>
     </None>    
   </ItemGroup>
-  <Import Project="build\Brotli.NET.targets"   />
-  <ItemGroup >
+  <Import Project="build\Brotli.NET.targets" />
+  <ItemGroup>
     <!-- <None Update="runtimes\**" Pack="true" PackagePath="." /> -->
+    <!-- <None Include="runtimes\**\*.dll">
+      <PackagePath>build\runtimes</PackagePath>
+      <Pack>true</Pack>
+    </None>     -->
     <None Include="build\Brotli.NET.targets">
       <PackagePath>build</PackagePath>
       <Pack>true</Pack>
     </None>    
-    <None Include="runtimes\**\*.dll">
-      <PackagePath>build\runtimes</PackagePath>
-      <Pack>true</Pack>
-    </None>    
   </ItemGroup>
-  <ItemGroup >
-    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0"  Condition="'$(TargetFramework)' == 'net45'" />
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" Condition=" '$(TargetFramework)' == 'net45' " />
   </ItemGroup>
 </Project>
