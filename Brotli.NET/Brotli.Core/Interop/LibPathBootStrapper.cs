@@ -46,7 +46,7 @@ namespace Brotli
             var paths = NativeLibraryLoader.GetPossibleRuntimeDirectories();
             var libFound = false;
             foreach(var path in paths)
-            {
+            {                
                 var fullPath = Path.Combine(path, fileName);
                 if (System.IO.File.Exists(fullPath))
                 {

@@ -68,28 +68,7 @@ namespace Brotli
         {
             if (IsWindows)
             {
-                if (Is64Bit)
-                {
-                    return WindowsLoader.GetProcAddress(Handle, symbolName);
-                }
-                else
-                {
-                    // Yes, we could potentially predict the size... but it's a lot simpler to just try
-                    // all the candidates. Most functions have a suffix of @0, @4 or @8 so we won't be trying
-                    // many options - and if it takes a little bit longer to fail if we've really got the wrong
-                    // library, that's not a big problem. This is only called once per function in the native library.
-                    symbolName = "_" + symbolName + "@";
-                    for (int stackSize = 0; stackSize < 128; stackSize += 4)
-                    {
-                        IntPtr candidate = WindowsLoader.GetProcAddress(Handle, symbolName + stackSize);
-                        if (candidate != IntPtr.Zero)
-                        {
-                            return candidate;
-                        }
-                    }
-                    // Fail.
-                    return IntPtr.Zero;
-                }
+              return WindowsLoader.GetProcAddress(Handle, symbolName);
             }
             if (IsLinux)
             {
@@ -142,8 +121,8 @@ namespace Brotli
             {
                 platform= "osx";
             }
-            string runtimesDirectory = string.Format("runtimes/{0}/native", platform);
-            var netCoreAppStyleDirectory = Path.Combine(assemblyDirectory, "../..", runtimesDirectory);
+            string runtimesDirectory = string.Format("runtimes/{0}/native", platform).Replace('/',System.IO.Path.DirectorySeparatorChar);
+            var netCoreAppStyleDirectory = Path.Combine(assemblyDirectory, "../..", runtimesDirectory).Replace('/', System.IO.Path.DirectorySeparatorChar);
             string[] paths = new[] { assemblyDirectory, runtimesDirectory, netCoreAppStyleDirectory };
             return paths;
         }

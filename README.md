@@ -3,9 +3,10 @@ The .net implement of the brotli algorithm,provide similar interface to Google o
 
 Quality and window control is supported.
 
-Supported on:
+Supported and tested on:
 - Dotnet standard 2(.NET Framework [v4.6.1] and .net core [2] above)
 - Windows/Linux/MacOSX
+- .NET Framework v4.5
 
 Besides quality controll,the library use the native runtime and its performance should be better than System.IO.Compress.BrotliStream.
 ## Supporting platform: .NET Standard 2(Windows/Linux)
@@ -79,4 +80,4 @@ protected void Application_PostAcquireRequestState(object sender, EventArgs e)
 ```
 
 ## Legacy version
-For .net framework 2/4 which does not support .net standard 2, you can use version v1.0.19.
+For .net framework below v4.5.0, you can use version v1.0.19.
