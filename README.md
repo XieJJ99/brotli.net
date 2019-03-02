@@ -9,7 +9,7 @@ Supported and tested on:
 - .NET Framework v4.5
 
 Besides quality controll,the library use the native runtime and its performance should be better than System.IO.Compress.BrotliStream.
-## Supporting platform: .NET Standard 2(Windows/Linux)
+## Supporting platform: .NET Standard 2(Windows/Linux/Mac OSX)
 
 ## Usage
 ### Compress
