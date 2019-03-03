@@ -121,9 +121,10 @@ namespace Brotli
             {
                 platform= "osx";
             }
-            string runtimesDirectory = string.Format("runtimes/{0}/native", platform).Replace('/',System.IO.Path.DirectorySeparatorChar);
-            var netCoreAppStyleDirectory = Path.Combine(assemblyDirectory, "../..", runtimesDirectory).Replace('/', System.IO.Path.DirectorySeparatorChar);
-            string[] paths = new[] { assemblyDirectory, runtimesDirectory, netCoreAppStyleDirectory };
+            string runtimesDirectory = string.Format("runtimes/{0}/native", platform).Replace('/',Path.DirectorySeparatorChar);
+            string runtimesFullDirectory = Path.Combine(assemblyDirectory,runtimesDirectory).Replace('/', Path.DirectorySeparatorChar);
+            var netCoreAppStyleDirectory = Path.Combine(assemblyDirectory, "../..", runtimesDirectory).Replace('/', Path.DirectorySeparatorChar);
+            string[] paths = new[] { assemblyDirectory, runtimesFullDirectory, runtimesDirectory, netCoreAppStyleDirectory };
             return paths;
         }
 
