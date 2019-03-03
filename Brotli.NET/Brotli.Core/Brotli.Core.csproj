@@ -8,11 +8,10 @@
     <Authors>Jinjun Xie</Authors>
     <Company>Jinjun Xie</Company>
     <Copyright>Copyright Jinjun Xie 2016</Copyright>
-    <PackageLicenseUrl>https://mit-license.org/</PackageLicenseUrl>
+    <PackageLicenseUrl>https://licenses.nuget.org/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/XieJJ99/brotli.net</PackageProjectUrl>
     <PackageTags>Brotli Compress Decompress .NET Standard Stream</PackageTags>
-    <PackageReleaseNotes>Fix load issues on .NET Framework Projets.
-Now supporting .NET 45 again.</PackageReleaseNotes>
+    <PackageReleaseNotes>Now supporting .NET 3.5 and above again.</PackageReleaseNotes>
     <Description>Supported on dotnet standard2(Windows/Linux/OSX), provide similar interface to Google offical API.Quality and window control is supported.
 The library use the native runtime and its performance should be better than System.IO.Compress.BrotliStream.
 To support dynamic compress in web applications,add the code like this in the Global.asax.cs:
