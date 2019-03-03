@@ -17,10 +17,14 @@ namespace Brotli
         internal static bool Is64Bit = false;
         static NativeLibraryLoader()
         {
+#if NET35 || NET40
+            IsWindows=true;
+#else
             IsWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             IsLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
             IsMacOSX = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-            IsNetCore= RuntimeInformation.FrameworkDescription.StartsWith(".NET Core");
+            IsNetCore = RuntimeInformation.FrameworkDescription.StartsWith(".NET Core");
+#endif
             if (!IsWindows && !IsLinux && !IsMacOSX)
             {
                 throw new InvalidOperationException("Unsupported platform.");
@@ -111,7 +115,11 @@ namespace Brotli
 
         internal static string[] GetPossibleRuntimeDirectories()
         {
+#if NET35 || NET40
+            var assemblyDirectory = Path.GetDirectoryName(typeof(LibPathBootStrapper).Assembly.Location);
+#else
             var assemblyDirectory = Path.GetDirectoryName(typeof(LibPathBootStrapper).GetTypeInfo().Assembly.Location);
+#endif
             var platform = "win";
             if (IsLinux)
             {
@@ -123,7 +131,11 @@ namespace Brotli
             }
             string runtimesDirectory = string.Format("runtimes/{0}/native", platform).Replace('/',Path.DirectorySeparatorChar);
             string runtimesFullDirectory = Path.Combine(assemblyDirectory,runtimesDirectory).Replace('/', Path.DirectorySeparatorChar);
+#if NET35
+            var netCoreAppStyleDirectory = Path.Combine(Path.Combine(assemblyDirectory, "../.."), runtimesDirectory).Replace('/', Path.DirectorySeparatorChar);
+#else
             var netCoreAppStyleDirectory = Path.Combine(assemblyDirectory, "../..", runtimesDirectory).Replace('/', Path.DirectorySeparatorChar);
+#endif
             string[] paths = new[] { assemblyDirectory, runtimesFullDirectory, runtimesDirectory, netCoreAppStyleDirectory };
             return paths;
         }

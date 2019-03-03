@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
-    <Version>2.0.3.2</Version>
+    <TargetFrameworks>net35;net40;net45;netstandard2.0</TargetFrameworks>
+    <Version>2.0.4.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Brotli.NET</PackageId>
     <Authors>Jinjun Xie</Authors>
     <Company>Jinjun Xie</Company>
     <Copyright>Copyright Jinjun Xie 2016</Copyright>
-    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageLicenseUrl>https://mit-license.org/</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/XieJJ99/brotli.net</PackageProjectUrl>
     <PackageTags>Brotli Compress Decompress .NET Standard Stream</PackageTags>
     <PackageReleaseNotes>Fix load issues on .NET Framework Projets.

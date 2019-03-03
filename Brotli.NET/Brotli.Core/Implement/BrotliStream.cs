@@ -215,9 +215,10 @@ namespace Brotli
             }
         }
 
+
         public void TruncateBeginning(MemoryStream ms, int numberOfBytesToRemove)
         {
-#if NETCORE
+#if NETSTANDARD2_0
             ArraySegment<byte> buf;
             if(ms.TryGetBuffer(out buf))
             {
@@ -369,4 +370,42 @@ namespace Brotli
             }
         }
     }
+
+#if NET35
+    /// <summary>
+    /// Improve compability issue on FX35
+    /// </summary>
+    public static class StreamCopyExtension
+    {
+        public static void CopyTo(this Stream source,Stream destination, int bufferSize=4*1024)
+        {
+            if (source==null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+            if (destination==null)
+            {
+                throw new ArgumentNullException(nameof(destination));
+            }
+            if (!source.CanRead)
+            {
+                throw new InvalidOperationException("source stream is not readable");
+            }
+            if (!destination.CanWrite)
+            {
+                throw new InvalidOperationException("destination stream is not writeable");
+            }
+            if (bufferSize<=0)
+            {
+                throw new InvalidOperationException("buffer size should be greate than zero");
+            }
+
+
+            byte[] buffer = new byte[bufferSize];
+            int read;
+            while ((read = source.Read(buffer, 0, buffer.Length)) > 0)
+                destination.Write(buffer, 0, read);
+        }
+    }
+#endif
 }

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brotli.Core", "Brotli.Core\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestBrotli", "TestBrotli\TestBrotli.csproj", "{1BB4F249-0ED5-49E8-97EC-4A5FF495B296}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FXTestBrotli", "FXTestBrotli\FXTestBrotli.csproj", "{4AF58FA9-B499-424B-BFF7-B8DDDF6481B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FX45TestBrotli", "FX45TestBrotli\FX45TestBrotli.csproj", "{4AF58FA9-B499-424B-BFF7-B8DDDF6481B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

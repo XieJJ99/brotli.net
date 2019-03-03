@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FXTestBrotli
 {
     [TestClass]
-    public class FXBroltliTest
+    public class FX45BroltliTest
     {
         public Boolean ArrayEqual(Byte[] a1, Byte[] a2)
         {
