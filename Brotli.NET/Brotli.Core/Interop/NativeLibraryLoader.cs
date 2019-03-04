@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -129,14 +130,17 @@ namespace Brotli
             {
                 platform= "osx";
             }
-            string runtimesDirectory = string.Format("runtimes/{0}/native", platform).Replace('/',Path.DirectorySeparatorChar);
-            string runtimesFullDirectory = Path.Combine(assemblyDirectory,runtimesDirectory).Replace('/', Path.DirectorySeparatorChar);
+            string runtimesDirectory = string.Format("runtimes/{0}/native", platform);
+            string runtimesFullDirectory = Path.Combine(assemblyDirectory,runtimesDirectory);
+            var iisBaseDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}bin/{runtimesDirectory}";
+            var execAssemblyDirectory= System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\","")+"/"+ runtimesDirectory;            
 #if NET35
-            var netCoreAppStyleDirectory = Path.Combine(Path.Combine(assemblyDirectory, "../.."), runtimesDirectory).Replace('/', Path.DirectorySeparatorChar);
+            var netCoreAppStyleDirectory = Path.Combine(Path.Combine(assemblyDirectory, "../.."), runtimesDirectory);
 #else
-            var netCoreAppStyleDirectory = Path.Combine(assemblyDirectory, "../..", runtimesDirectory).Replace('/', Path.DirectorySeparatorChar);
+            var netCoreAppStyleDirectory = Path.Combine(assemblyDirectory, "../..", runtimesDirectory);
 #endif
-            string[] paths = new[] { assemblyDirectory, runtimesFullDirectory, runtimesDirectory, netCoreAppStyleDirectory };
+            string[] paths = new[] { assemblyDirectory, runtimesFullDirectory, runtimesDirectory, netCoreAppStyleDirectory,iisBaseDirectory,execAssemblyDirectory };
+            paths = paths.Select(v => v.Replace('/', Path.DirectorySeparatorChar)).ToArray();
             return paths;
         }
 
