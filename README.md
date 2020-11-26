@@ -42,9 +42,7 @@ public Byte[] Decode(Byte[] input)
     using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
     {
         bs.CopyTo(msOutput);
-        msOutput.Seek(0, System.IO.SeekOrigin.Begin);
-        output = msOutput.ToArray();
-        return output;
+        return msOutput.ToArray();
     }
 }
 ```
