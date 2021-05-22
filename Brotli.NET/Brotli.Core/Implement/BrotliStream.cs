@@ -2,6 +2,8 @@
 using System.IO;
 using System.IO.Compression;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Brotli
 {
@@ -149,7 +151,7 @@ namespace Brotli
             }
         }
 
-        public override void Flush()
+        public override async Task FlushAsync(CancellationToken cancellationToken)
         {
             if (_stream == null)
             {
@@ -157,11 +159,16 @@ namespace Brotli
             }
             if (_mode == CompressionMode.Compress)
             {
-               FlushBrotliStream(false);
+                await FlushBrotliStreamAsync(false).ConfigureAwait(false);
             }
+
+        }
+        public override void Flush()
+        {
+            AsyncHelper.RunSync(() => FlushAsync());
         }
 
-        protected virtual void FlushBrotliStream(Boolean finished)
+        protected virtual async Task FlushBrotliStreamAsync(Boolean finished)
         {
             //test if the resource has been freed
             if (_state == IntPtr.Zero) return;
@@ -176,8 +183,8 @@ namespace Brotli
                 if (extraData)
                 {
                     var bytesWrote = (int)(BufferSize - _availableOut);
-                    Marshal.Copy(_ptrOutputBuffer, _managedBuffer, 0, bytesWrote);
-                    _stream.Write(_managedBuffer, 0, bytesWrote);
+                    Marshal.Copy(_ptrOutputBuffer, _managedBuffer, 0, bytesWrote);                    
+                    await _stream.WriteAsync(_managedBuffer, 0, bytesWrote).ConfigureAwait(false);
                     _availableOut = BufferSize;
                     _ptrNextOutput = _ptrOutputBuffer;
                 }
@@ -185,6 +192,12 @@ namespace Brotli
                 if (!extraData) break;
             }
 
+        }
+
+        protected virtual void FlushBrotliStream(Boolean finished)
+        {
+
+            AsyncHelper.RunSync(() => FlushBrotliStreamAsync(finished));
         }
 
         protected override void Dispose(bool disposing)
@@ -236,7 +249,7 @@ namespace Brotli
 #endif
         }
 
-        public override int Read(byte[] buffer, int offset, int count)
+        public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             if (_mode != CompressionMode.Decompress) throw new BrotliException("Can't read on this stream");
 
@@ -251,7 +264,7 @@ namespace Brotli
                 {
                     if (_lastDecodeResult == BrotliDecoderResult.NeedsMoreInput)
                     {
-                        _availableIn = (UInt32)_stream.Read(_managedBuffer, 0, (int)BufferSize);
+                        _availableIn = (UInt32) await _stream.ReadAsync(_managedBuffer, 0, (int)BufferSize).ConfigureAwait(false);
                         _ptrNextInput = _ptrInputBuffer;
                         if (_availableIn <= 0)
                         {
@@ -263,7 +276,7 @@ namespace Brotli
                     else if (_lastDecodeResult == BrotliDecoderResult.NeedsMoreOutput)
                     {
                         Marshal.Copy(_ptrOutputBuffer, _managedBuffer, 0, BufferSize);
-                        _intermediateStream.Write(_managedBuffer, 0, BufferSize);
+                        await _intermediateStream.WriteAsync(_managedBuffer, 0, BufferSize).ConfigureAwait(false);
                         bytesRead += BufferSize;
                         _availableOut = BufferSize;
                         _ptrNextOutput = _ptrOutputBuffer;
@@ -277,7 +290,7 @@ namespace Brotli
                     _lastDecodeResult = Brolib.BrotliDecoderDecompressStream(_state, ref _availableIn, ref _ptrNextInput,
                         ref _availableOut, ref _ptrNextOutput, out totalCount);
                     if (bytesRead >= count) break;
-                }                
+                }
                 if (endOfStream && !Brolib.BrotliDecoderIsFinished(_state))
                 {
                     errorDetected = true;
@@ -285,9 +298,9 @@ namespace Brotli
 
                 if (_lastDecodeResult == BrotliDecoderResult.Error || errorDetected)
                 {
-                    var error = Brolib.BrotliDecoderGetErrorCode(_state);                    
+                    var error = Brolib.BrotliDecoderGetErrorCode(_state);
                     var text = Brolib.BrotliDecoderErrorString(error);
-                    throw new BrotliDecodeException(String.Format("Unable to decode stream,possibly corrupt data.Code={0}({1})",error,text),error,text);
+                    throw new BrotliDecodeException(String.Format("Unable to decode stream,possibly corrupt data.Code={0}({1})", error, text), error, text);
                 }
 
                 if (endOfStream && !Brolib.BrotliDecoderIsFinished(_state) && _lastDecodeResult == BrotliDecoderResult.NeedsMoreInput)
@@ -300,25 +313,33 @@ namespace Brotli
                     int remainBytes = (int)(_ptrNextOutput.ToInt64() - _ptrOutputBuffer.ToInt64());
                     bytesRead += remainBytes;
                     Marshal.Copy(_ptrOutputBuffer, _managedBuffer, 0, remainBytes);
-                    _intermediateStream.Write(_managedBuffer, 0, remainBytes);
+                    await _intermediateStream.WriteAsync(_managedBuffer, 0, remainBytes).ConfigureAwait(false);
                     _ptrNextOutput = _ptrOutputBuffer;
                 }
                 if (endOfStream) break;
             }
 
             if (_intermediateStream.Length - _readOffset >= count || endOfStream)
-            {
+            {                
                 _intermediateStream.Seek(_readOffset, SeekOrigin.Begin);
                 var bytesToRead = (int)(_intermediateStream.Length - _readOffset);
                 if (bytesToRead > count) bytesToRead = count;
-                _intermediateStream.Read(buffer, offset, bytesToRead);
+                await _intermediateStream.ReadAsync(buffer, offset, bytesToRead).ConfigureAwait(false);
                 TruncateBeginning(_intermediateStream, _readOffset + bytesToRead);
                 _readOffset = 0;
                 return bytesToRead;
             }
 
             return 0;
+        }
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            async Task<int> task()
+            {
+                return await ReadAsync(buffer,offset,count).ConfigureAwait(false);
 
+            }
+            return AsyncHelper.RunSync(task);
         }
 
         public override long Seek(long offset, SeekOrigin origin)
@@ -332,7 +353,8 @@ namespace Brotli
         }
 
         static int totalWrote = 0;
-        public override void Write(byte[] buffer, int offset, int count)
+
+        public override async Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             if (_mode != CompressionMode.Compress) throw new BrotliException("Can't write on this stream");
             totalWrote += count;
@@ -361,13 +383,18 @@ namespace Brotli
                         var bytesWrote = (int)(BufferSize - _availableOut);
                         //Byte[] localBuffer = new Byte[bytesWrote];
                         Marshal.Copy(_ptrOutputBuffer, _managedBuffer, 0, bytesWrote);
-                        _stream.Write(_managedBuffer, 0, bytesWrote);
+                        await _stream.WriteAsync(_managedBuffer, 0, bytesWrote).ConfigureAwait(false);
                         _availableOut = BufferSize;
                         _ptrNextOutput = _ptrOutputBuffer;
                     }
                 }
                 if (Brolib.BrotliEncoderIsFinished(_state)) break;
             }
+        }
+
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+
         }
     }
 

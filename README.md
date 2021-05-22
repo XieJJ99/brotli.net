@@ -6,12 +6,14 @@ Quality and window control is supported.
 Supported and tested on:
 - Dotnet standard 2(.NET Framework [v4.6.1] and .net core [2] above)
 - Windows/Linux/MacOSX
-- .NET Framework v3.5 and above
+- .NET Framework v4.5
 
 Besides quality controll,the library use the native runtime and its performance should be better than System.IO.Compress.BrotliStream.
 ## Supporting platform: .NET Standard 2(Windows/Linux/Mac OSX)
 
 ## Usage
+### .net core compression
+For compression provider sample, please check the Brotli.CompressionProvider.Sample folder.
 ### Compress
 
 ```C#
@@ -49,7 +51,7 @@ public Byte[] Decode(Byte[] input)
 }
 ```
 
-### Dynamic compress support(.NET Mvc)
+### Dynamic compress support(Legacy .NET Mvc)
 
 ```C#
 protected void Application_PostAcquireRequestState(object sender, EventArgs e)
@@ -80,6 +82,7 @@ protected void Application_PostAcquireRequestState(object sender, EventArgs e)
 ```
 
 ## Legacy version
+For .net framework below v4.5, you can use version v2.0.2.4.
 For .net framework below v3.5, you can use version v1.0.19.
 
 ## License
