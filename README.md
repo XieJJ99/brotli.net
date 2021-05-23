@@ -17,38 +17,22 @@ For compression provider sample, please check the Brotli.CompressionProvider.Sam
 ### Compress
 
 ```C#
-public Byte[] Encode(Byte[] input)
-{
-    Byte[] output = null;
-    using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(input))
-    using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
-    using (BrotliStream bs = new BrotliStream(msOutput, System.IO.Compression.CompressionMode.Compress))
-    {
-        bs.SetQuality(11);
-        bs.SetWindow(22);
-        msInput.CopyTo(bs);
-        bs.Close();
-        output = msOutput.ToArray();
-        return output;
-    }
-}
+//the first parameter controls the quality(0-11)
+var compressedData=inputBytes.CompressToBrotli(5,22);
+//or
+var compressedData=inputSteam.CompressToBrotli();
+//or
+inputStream.CompressToBrotli(destStream)
 ```       
 
 ### Decompress
 
 ```C#
-public Byte[] Decode(Byte[] input)
-{
-    using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(input))
-    using (BrotliStream bs = new BrotliStream(msInput, System.IO.Compression.CompressionMode.Decompress))
-    using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
-    {
-        bs.CopyTo(msOutput);
-        msOutput.Seek(0, System.IO.SeekOrigin.Begin);
-        output = msOutput.ToArray();
-        return output;
-    }
-}
+var decompressedData=inputBytes.DecompressFromBrotli();
+//or
+var decompressedData=inputSteam.DecompressFromBrotli();
+//or
+inputSteam.DecompressFromBrotli(destStream);
 ```
 
 ### Dynamic compress support(Legacy .NET Mvc)
