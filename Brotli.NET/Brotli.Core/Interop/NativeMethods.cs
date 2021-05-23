@@ -8,7 +8,7 @@ namespace Brotli
 
     static class WindowsLoader
     {
-        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern IntPtr LoadLibrary(string dllFilePath);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, SetLastError = true)]
