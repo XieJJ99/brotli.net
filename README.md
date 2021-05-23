@@ -17,6 +17,8 @@ For compression provider sample, please check the Brotli.CompressionProvider.Sam
 ### Compress
 
 ```C#
+using Brotli;
+
 //the first parameter controls the quality(0-11)
 var compressedData=inputBytes.CompressToBrotli(5,22);
 //or
