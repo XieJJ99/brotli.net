@@ -13,7 +13,7 @@ Besides quality controll,the library use the native runtime and its performance 
 
 ## Usage
 ### .net core compression
-For compression provider sample, please check the Brotli.CompressionProvider.Sample folder.
+For compression provider sample, please check the [Brotli.CompressionProvider.Sample](https://github.com/XieJJ99/brotli.net/tree/master/Brotli.NET/Brotli.CompressionProvider.Sample) folder.
 ### Compress
 
 ```C#
