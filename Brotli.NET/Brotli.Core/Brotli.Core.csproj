@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
-    <Version>2.1.0.0</Version>
+    <Version>2.1.1.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Brotli.NET</PackageId>
     <Authors>Jinjun Xie</Authors>
@@ -14,27 +14,9 @@
     <PackageReleaseNotes>Add async stream support, update brotli core to v1.0.9</PackageReleaseNotes>
     <Description>Supported on dotnet standard2(Windows/Linux/OSX), provide similar interface to Google offical API.Quality and window control is supported.
 The library use the native runtime and its performance should be better than System.IO.Compress.BrotliStream.
-To support dynamic compress in web applications,add the code like this in the Global.asax.cs:
-        protected void Application_PostAcquireRequestState(object sender, EventArgs e)
-        {
-                           var app = Context.ApplicationInstance;
-                String acceptEncodings = app.Request.Headers.Get("Accept-Encoding");
-
-                if (!String.IsNullOrEmpty(acceptEncodings))
-                {
-                    System.IO.Stream baseStream = app.Response.Filter;
-                    acceptEncodings = acceptEncodings.ToLower();
-
-                    if (acceptEncodings.Contains("br") || acceptEncodings.Contains("brotli"))
-                    {
-                        app.Response.Filter = new BrotliStream(baseStream, System.IO.Compression.CompressionMode.Compress);
-                        app.Response.AppendHeader("Content-Encoding", "br");
-                    }
-                    //other encodings
-                }
-           }</Description>
+For more document,please visit https://github.com/XieJJ99/brotli.net.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <AssemblyVersion>2.11.0.0</AssemblyVersion>
+    <AssemblyVersion>2.1.1.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <!-- <None Update="runtimes\**" Pack="true" PackagePath="." /> -->

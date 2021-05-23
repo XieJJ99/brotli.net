@@ -95,7 +95,6 @@ namespace TestBrotli
                 using (var msOutput = new MemoryStream())
                 {
                     bs.CopyTo(msOutput); // goes bang
-                    msOutput.Seek(0, SeekOrigin.Begin);
                     var output = msOutput.ToArray();
                     Assert.True(output.Length == 0);
                 }
@@ -106,37 +105,17 @@ namespace TestBrotli
         public void TestEncode()
         {
             var input = GetBytes("TestBrotli.Resource.BingCN.bin");
-            Byte[] output = null;
-            using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(input))
-            using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
-            using (BrotliStream bs = new BrotliStream(msOutput, System.IO.Compression.CompressionMode.Compress))
-            {
-                bs.SetQuality(11);
-                bs.SetWindow(22);
-                msInput.CopyTo(bs);
-                bs.Close();
-                output = msOutput.ToArray();
-                Boolean eq = ArrayEqual(output, GetBytes("TestBrotli.Resource.BingCN_Compressed.bin"));
-                Assert.True(eq);
-
-            }
+            var output = input.CompressToBrotli(11,22);
+            Boolean eq = ArrayEqual(output, GetBytes("TestBrotli.Resource.BingCN_Compressed.bin"));
+            Assert.True(eq);  
         }
 
         [Fact]
         public void TestDecode()
         {
             var input = GetBytes("TestBrotli.Resource.BingCN_Compressed.bin");
-            Byte[] output = null;
-            using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(input))
-            using (BrotliStream bs = new BrotliStream(msInput, System.IO.Compression.CompressionMode.Decompress))
-            using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
-            {
-                bs.CopyTo(msOutput);
-                msOutput.Seek(0, System.IO.SeekOrigin.Begin);
-                output = msOutput.ToArray();                
-                Assert.True(ArrayEqual(output, GetBytes("TestBrotli.Resource.BingCN.bin") ));
-
-            }
+            var output = input.DecompressFromBrotli();
+            Assert.True(ArrayEqual(output, GetBytes("TestBrotli.Resource.BingCN.bin")));
 
         }
     }

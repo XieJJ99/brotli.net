@@ -23,20 +23,9 @@ namespace FXTestBrotli
         public void TestCreateInstance()
         {
             var input = new byte[] { 1, 2, 3, 4, 1, 2, 3, 4 };
-            Byte[] output = null;
-            using (System.IO.MemoryStream msInput = new System.IO.MemoryStream(input))
-            using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
-            using (BrotliStream bs = new BrotliStream(msOutput, System.IO.Compression.CompressionMode.Compress))
-            {
-                bs.SetQuality(11);
-                bs.SetWindow(22);
-                msInput.CopyTo(bs);
-                bs.Close();
-                output = msOutput.ToArray();
-                Boolean eq = ArrayEqual(output, new byte[] { 0x8b,0x03,0x80,1, 2, 3, 4,1,2,3,4,0x3 });
-                Assert.IsTrue(eq);
-
-            }
+            Byte[] output = input.CompressToBrotli();
+            Boolean eq = ArrayEqual(output, new byte[] { 0x8b, 0x03, 0x80, 1, 2, 3, 4, 1, 2, 3, 4, 0x3 });
+            Assert.IsTrue(eq);
 
         }
     }

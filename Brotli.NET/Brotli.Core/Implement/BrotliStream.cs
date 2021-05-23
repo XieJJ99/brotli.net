@@ -394,7 +394,12 @@ namespace Brotli
 
         public override void Write(byte[] buffer, int offset, int count)
         {
+            async Task task()
+            {
+                await WriteAsync(buffer,offset,count).ConfigureAwait(false);
 
+            }
+            AsyncHelper.RunSync(task);
         }
     }
 
