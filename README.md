@@ -69,6 +69,7 @@ protected void Application_PostAcquireRequestState(object sender, EventArgs e)
 
 ## Legacy version
 For .net framework below v4.5, you can use version v2.0.2.4.
+
 For .net framework below v3.5, you can use version v1.0.19.
 
 ## License
