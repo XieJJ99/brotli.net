@@ -9,10 +9,12 @@ Supported and tested on:
 - .NET Framework v4.5
 
 Besides quality controll,the library use the native runtime and its performance should be better than System.IO.Compress.BrotliStream.
-## Supporting platform: .NET Standard 2(Windows/Linux/Mac OSX)
+## Supporting platform: 
+### .NET Standard 2(Windows/Linux/Mac OSX)
+### .NET Framework v4.5 and above
 
 ## Usage
-### .net core compression
+### asp.net core compression provider
 For compression provider sample, please check the [Brotli.CompressionProvider.Sample](https://github.com/XieJJ99/brotli.net/tree/master/Brotli.NET/Brotli.CompressionProvider.Sample) folder.
 ### Compress
 
