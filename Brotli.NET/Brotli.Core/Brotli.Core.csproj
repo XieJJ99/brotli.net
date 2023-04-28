@@ -17,6 +17,9 @@ The library use the native runtime and its performance should be better than Sys
 For more document,please visit https://github.com/XieJJ99/brotli.net.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AssemblyVersion>2.1.1.0</AssemblyVersion>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\brotlidotnet.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
   </PropertyGroup>
   <ItemGroup>
     <!-- <None Update="runtimes\**" Pack="true" PackagePath="." /> -->
