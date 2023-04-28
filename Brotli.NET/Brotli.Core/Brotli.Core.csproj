@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
-    <Version>2.1.1.0</Version>
+    <Version>2.1.2.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Brotli.NET</PackageId>
     <Authors>Jinjun Xie</Authors>
@@ -11,12 +11,12 @@
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/XieJJ99/brotli.net</PackageProjectUrl>
     <PackageTags>Brotli Compress Decompress .NET Standard Stream</PackageTags>
-    <PackageReleaseNotes>Add async stream support, update brotli core to v1.0.9</PackageReleaseNotes>
+    <PackageReleaseNotes>The Brotli.Core assembly now has a strong name</PackageReleaseNotes>
     <Description>Supported on dotnet standard2(Windows/Linux/OSX), provide similar interface to Google offical API.Quality and window control is supported.
 The library use the native runtime and its performance should be better than System.IO.Compress.BrotliStream.
 For more document,please visit https://github.com/XieJJ99/brotli.net.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <AssemblyVersion>2.1.1.0</AssemblyVersion>
+    <AssemblyVersion>2.1.2.0</AssemblyVersion>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\brotlidotnet.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
