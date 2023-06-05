@@ -18,7 +18,7 @@ namespace Brotli
         internal static bool Is64Bit = false;
         static NativeLibraryLoader()
         {
-#if NET35 || NET40
+#if NET35 || NET40 || NET462
             IsWindows=true;
 #else
             IsWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -116,7 +116,7 @@ namespace Brotli
 
         internal static string[] GetPossibleRuntimeDirectories()
         {
-#if NET35 || NET40
+#if NET35 || NET40 || NET462
             var assemblyDirectory = Path.GetDirectoryName(typeof(LibPathBootStrapper).Assembly.Location);
 #else
             var assemblyDirectory = Path.GetDirectoryName(typeof(LibPathBootStrapper).GetTypeInfo().Assembly.Location);
