@@ -23,7 +23,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore -p:Version=${{ env.VERSION }}
+      run: dotnet build Brotli.Core --configuration Release --no-restore -p:Version=${{ env.VERSION }}
     - name: Pack
       run: dotnet pack Brotli.Core --output nupkgs --configuration Release -p:Version=${{ env.VERSION }}
     - name: Nuget Publish
