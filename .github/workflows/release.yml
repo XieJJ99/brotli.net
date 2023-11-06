@@ -7,6 +7,9 @@ on:
 jobs:
   publish:
     runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: ./Brotli.NET
     steps:
     - uses: actions/checkout@v4
     - name: Get version
@@ -17,8 +20,6 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
-    - name: CD Into Project
-      run: cd Brotli.NET
     - name: Install dependencies
       run: dotnet restore
     - name: Build
