@@ -18,14 +18,11 @@ namespace Brotli
         internal static bool Is64Bit = false;
         static NativeLibraryLoader()
         {
-#if NET35 || NET40 || NET462
-            IsWindows=true;
-#else
             IsWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             IsLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
             IsMacOSX = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
             IsNetCore = RuntimeInformation.FrameworkDescription.StartsWith(".NET Core");
-#endif
+
             if (!IsWindows && !IsLinux && !IsMacOSX)
             {
                 throw new InvalidOperationException("Unsupported platform.");
